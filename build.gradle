@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
     }
 
     dependencies {
@@ -11,6 +12,7 @@ buildscript {
 plugins {
     id 'java'
     id 'war'
+    id 'idea'
 }
 
 apply plugin: 'com.bmuschko.tomcat'
@@ -37,7 +39,41 @@ dependencies {
     implementation("org.springframework:spring-webmvc:5.2.3.RELEASE")
     implementation("javax.servlet:javax.servlet-api:4.0.1")
     implementation("javax.servlet:jstl:1.2")
+
+    implementation('com.google.protobuf:protobuf-java:3.18.0')
 }
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+            srcDirs 'src/main/protogen'
+        }
+    }
+}
+
+//For this task to run successfully, you must have the following in your system path:
+//protoc
+task protoc {
+    doFirst {
+        exec {
+            workingDir "$projectDir/src/main/proto"
+            project.logger.lifecycle('Generating Java Code from .proto files')
+            commandLine 'bash', '-c', 'rm -Rf ../protogen; mkdir -p ../protogen; protoc --java_out=../protogen/ *.proto'
+        }
+    }
+}
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs 'protogen'
+//        }
+//    }
+//}
+
+build.dependsOn protoc
+build.mustRunAfter protoc
 
 // context where tomcat is deployed, by default localhost:8080/
 tomcatRun.contextPath = '/'

@@ -73,26 +73,26 @@ public class TrajectoryGenerator {
         return mMotionPlanner.generateTrajectory(reversed, waypoints, constraints, start_vel, end_vel, max_vel, max_accel, max_voltage);
     }
 
-    public final Pose2d kStartPose1 = new Pose2d(7.6708, -6.223, Rotation2d.fromDegrees(-90));  //302,-245
-    public final Pose2d kStartPose2 = new Pose2d(6.223, -3.175, Rotation2d.fromDegrees(135));   //
-    public final Pose2d kBall1 = new Pose2d(4.953, -2.032, Rotation2d.fromDegrees(0));   //
-    public final Pose2d kBall2 = new Pose2d(5.08, -6.3754, Rotation2d.fromDegrees(0));  //200,251
-    public final Pose2d kBall3 = new Pose2d(7.5692, -7.9502, Rotation2d.fromDegrees(0));    //298,-313
-    public final Pose2d kBall4 = new Pose2d(1.0668, 7.112, Rotation2d.fromDegrees(0));  //
+    public final Pose2d kStartPose1 = new Pose2d(302, -245, Rotation2d.fromDegrees(-90));  //302,-245
+    public final Pose2d kStartPose2 = new Pose2d(245, -125, Rotation2d.fromDegrees(135));   //245,-125
+    public final Pose2d kBall1 = new Pose2d(195, -80, Rotation2d.fromDegrees(0));   //195,-80
+    public final Pose2d kBall2 = new Pose2d(200, -251, Rotation2d.fromDegrees(0));  //200,-251
+    public final Pose2d kBall3 = new Pose2d(298, -313, Rotation2d.fromDegrees(0));    //298,-313
+    public final Pose2d kBall4 = new Pose2d(42, -280, Rotation2d.fromDegrees(0));  //42,280
 
-    public final Pose2d kBall3Pickup = new Pose2d(7.6454, -7.0612, Rotation2d.fromDegrees(-92));   //301,-278
+    public final Pose2d kBall3Pickup = new Pose2d(301, -270, Rotation2d.fromDegrees(-92));   //301,-278
 
-    public final Pose2d kBall2Pickup = new Pose2d(5.588, -6.7818, Rotation2d.fromDegrees(140));  //220,-267
+    public final Pose2d kBall2Pickup = new Pose2d(220, -267, Rotation2d.fromDegrees(140));  //220,-267
 
-    public final Pose2d kBall4Pickup = new Pose2d(1.524, -6.604, Rotation2d.fromDegrees(-135));  //60,-260
+    public final Pose2d kBall4Pickup = new Pose2d(60, -260, Rotation2d.fromDegrees(-135));  //60,-260
 
-    public final Pose2d kBall4PickupAlternate = new Pose2d(1.651, -7.0612, Rotation2d.fromDegrees(145));  //65,-278
+    public final Pose2d kBall4PickupAlternate = new Pose2d(65, -278, Rotation2d.fromDegrees(145));  //65,-278
 
-    public final Pose2d kBall1PickupViaPoint1 = new Pose2d(1.397, -4.9276, Rotation2d.fromDegrees(50));  //55,-194
-    public final Pose2d kBall1Pickup = new Pose2d(4.826, -2.413, Rotation2d.fromDegrees(69));  //190,-95
+    public final Pose2d kBall1PickupViaPoint1 = new Pose2d(55, -194, Rotation2d.fromDegrees(50));  //55,-194
+    public final Pose2d kBall1Pickup = new Pose2d(190, -95, Rotation2d.fromDegrees(69));  //190,-95
 
-    public final Pose2d kBall1PickupViaPoint1Alternate = new Pose2d(1.651, -2.667, Rotation2d.fromDegrees(90));  //65,-105
-    public final Pose2d kBall1PickupAlternate = new Pose2d(4.572, -1.905, Rotation2d.fromDegrees(-15));  //180,-75
+    public final Pose2d kBall1PickupViaPoint1Alternate = new Pose2d(65, -105, Rotation2d.fromDegrees(90));  //65,-105
+    public final Pose2d kBall1PickupAlternate = new Pose2d(180, -75, Rotation2d.fromDegrees(-15));  //180,-75
 
 
 

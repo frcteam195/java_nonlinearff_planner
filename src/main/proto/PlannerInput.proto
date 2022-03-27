@@ -1,0 +1,19 @@
+syntax = "proto3";
+package ck;
+option java_multiple_files = true;
+option java_package = "com.team195.protos";
+option java_outer_classname = "PlannerInputProtos";
+
+message PlannerInput {
+  message Pose2d
+  {
+    double x = 1;
+    double y = 2;
+    double yaw = 3;
+  }
+  double timestamp = 1;
+  Pose2d pose = 2;
+  bool force_stop = 3;
+  bool begin_trajectory = 4;
+  int32 trajectory_id = 5;
+}
