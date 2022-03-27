@@ -1,11 +1,5 @@
 package com.team254.frc2020;
 
-import com.team254.lib.geometry.Pose2d;
-import com.team254.lib.geometry.Rotation2d;
-import com.team254.lib.geometry.Translation2d;
-import com.team254.lib.util.InterpolatingDouble;
-import com.team254.lib.util.InterpolatingTreeMap;
-import com.team254.lib.util.ShootingParameters;
 import com.team254.lib.util.Units;
 
 /**
@@ -18,7 +12,7 @@ import com.team254.lib.util.Units;
 public class Constants {
     // Drive ratio.
     public static final double kDriveLowGearReduction = 40.0 / 11.0 * 44.0 / 20.0;
-    public static final double kDriveHighGearReduction = 40.0 / 11.0 * 50.0 / 14.0;
+    public static final double kDriveHighGearReduction = 40.0 / 11.0 * 50.0 / 14.0; //12.987
     public static final double kDriveRotationsPerTickHighGear = 1.0 / 2048.0 * 1.0 / kDriveLowGearReduction; // ticks * kDriveRotationsPerTicksHighGear = wheel rotations
     public static final double kDriveRotationsPerTickLowGear = 1.0 / 2048.0 * 1.0 / kDriveHighGearReduction; // ticks * kDriveRotationsPerTicksLowGear = wheel rotations
     public static final double kGearRatioScalar = (1.0 / (40.0 / 10.0 * 50.0 / 14.0)) / (1.0 / kDriveHighGearReduction);
@@ -30,10 +24,10 @@ public class Constants {
     public static final double kDriveWheelTrackRadiusWidthMeters = kDriveWheelTrackWidthInches / 2.0 * 0.0254;
     public static final double kTrackScrubFactor = 1.0;
 
-    // deadband
-    public static final double kDriveThrottleDeadband = 0.04;
-    public static final double kDriveWheelDeadband = 0.035;
-
+    public static final double kDriveKp = 0.15;
+    public static final double kDriveKi = 0.0;
+    public static final double kDriveKd = 0.0;
+    public static final double kDriveKf = 0.0;
 
     // robot dynamics TODO tune
     public static final double kDriveVIntercept = 0.352; // V TODO

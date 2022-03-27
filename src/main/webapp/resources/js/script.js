@@ -8,15 +8,17 @@ let wto;
 let change = "propertychange change click keyup input paste";
 let animating = false;
 
-const fieldWidth = 886; // inches
+const fieldWidth = 864; // inches
 const fieldHeight = 360; // inches
-const xOffset = 120;
-const yOffset = 180;
-const width = 1604; //pixels
-const height = 651; //pixels
+const xOffset = 108;
+const yOffset = fieldHeight - 17.75;
+const width = 1858; //pixels
+const height = 773; //pixels
 
-const robotWidth = 34.5; // inches
-const robotHeight = 39.25; // inches
+const bumperWidth = 3.5 * 2.0;	// inches
+
+const robotWidth = 28 + bumperWidth; // inches
+const robotHeight = 31.75 + bumperWidth; // inches
 
 const waypointRadius = 7;
 const splineWidth = 2;
