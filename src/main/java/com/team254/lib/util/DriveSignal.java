@@ -1,14 +1,13 @@
 package com.team254.lib.util;
 
-import com.team195.lib.util.FastDoubleToString;
-
 /**
- * A drivetrain command consisting of the left, right motor settings and whether the brake mode is enabled.
+ * A drivetrain command consisting of the left, right motor settings and whether
+ * the brake mode is enabled.
  */
 public class DriveSignal {
-    private double mLeftMotor;
-    private double mRightMotor;
-    private boolean mBrakeMode;
+    private final double mLeftMotor;
+    private final double mRightMotor;
+    private final boolean mBrakeMode;
 
     public DriveSignal(double left, double right) {
         this(left, right, false);
@@ -31,25 +30,26 @@ public class DriveSignal {
         return mRightMotor;
     }
 
-    public synchronized void set(double leftMotor, double rightMotor) {
-        this.mLeftMotor = leftMotor;
-        this.mRightMotor = rightMotor;
-    }
-
-    public synchronized void setLeftMotor(double leftMotor) {
-        this.mLeftMotor = leftMotor;
-    }
-
-    public synchronized void setRightMotor(double rightMotor) {
-        this.mRightMotor = rightMotor;
-    }
-
     public boolean getBrakeMode() {
         return mBrakeMode;
     }
 
+    /**
+     * @return a new DriveSignal object with the outputs normalized so the max motor
+     * output is 1.0
+     */
+    public DriveSignal normalize() {
+        // if either of the left or right signals is greater than 1, creating a scaling
+        // factor so that we can proportionally scale down the motor outputs so the max
+        // output is 1.0
+        double scaling_factor = Math.max(1.0, Math.max(Math.abs(this.getLeft()), Math.abs(this.getRight())));
+
+        // divide by scaling factor so that the max motor output is 1
+        return new DriveSignal(this.getLeft() / scaling_factor, this.getRight() / scaling_factor);
+    }
+
     @Override
     public String toString() {
-        return "L: " + FastDoubleToString.format(mLeftMotor) + ", R: " + FastDoubleToString.format(mRightMotor) + (mBrakeMode ? ", BRAKE" : "");
+        return "L: " + mLeftMotor + ", R: " + mRightMotor + (mBrakeMode ? ", BRAKE" : "");
     }
 }

@@ -13,10 +13,6 @@ public class CrashTracker {
 
     private static final UUID RUN_INSTANCE_UUID = UUID.randomUUID();
 
-    public static void logRobotStartup() {
-        logMarker("robot startup");
-    }
-
     public static void logRobotConstruction() {
         logMarker("robot startup");
     }
@@ -37,6 +33,10 @@ public class CrashTracker {
         logMarker("disabled init");
     }
 
+    public static void logTestInit() {
+        logMarker("test init");
+    }
+
     public static void logThrowableCrash(Throwable throwable) {
         logMarker("Exception", throwable);
     }
@@ -46,15 +46,6 @@ public class CrashTracker {
     }
 
     private static void logMarker(String mark, Throwable nullableException) {
-
-        try {
-//            ConsoleReporter.report(mark, MessageLevel.WARNING);
-//            if (nullableException != null)
-//                ConsoleReporter.report(nullableException);
-        }
-        catch (Exception ex) {
-//            ConsoleReporter.report(ex);
-        }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter("/home/lvuser/crash_tracking.txt", true))) {
             writer.print(RUN_INSTANCE_UUID.toString());

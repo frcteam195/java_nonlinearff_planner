@@ -10,14 +10,15 @@ import com.team254.lib.trajectory.timing.DifferentialDriveDynamicsConstraint;
 import com.team254.lib.trajectory.timing.TimedState;
 import com.team254.lib.trajectory.timing.TimingUtil;
 import com.team254.lib.util.Units;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
+@RunWith(JUnit4.class)
 public class IntegrationTest {
 
     @Test
@@ -40,8 +41,8 @@ public class IntegrationTest {
         Trajectory<Pose2dWithCurvature> smooth_path = TrajectoryUtil.trajectoryFromPathFollower(path_follower,
                 Pose2dWithCurvature.identity(), /* step_size= */ 1.0, /* dcurvature_limit= */1.0);
 
-        assertFalse(smooth_path.isEmpty());
-//        System.out.println(smooth_path.toCSV());
+        Assert.assertFalse(smooth_path.isEmpty());
+        System.out.println(smooth_path.toCSV());
 
         // Time parameterize the path subject to our dynamic constraints.
         // TODO
@@ -87,11 +88,11 @@ public class IntegrationTest {
         for (int i = 1; i < timed_trajectory.length(); ++i) {
             TrajectoryPoint<TimedState<Pose2dWithCurvature>> prev = timed_trajectory.getPoint(i - 1);
             TrajectoryPoint<TimedState<Pose2dWithCurvature>> next = timed_trajectory.getPoint(i);
-            assertEquals(prev.state().acceleration(), (next.state().velocity() - prev.state().velocity()) / (next
+            Assert.assertEquals(prev.state().acceleration(), (next.state().velocity() - prev.state().velocity()) / (next
                     .state().t() - prev.state().t()), 1E-9);
             final double dt = next.state().t() - prev.state().t();
-            assertEquals(next.state().velocity(), prev.state().velocity() + prev.state().acceleration() * dt, 1E-9);
-            assertEquals(next.state().distance(prev.state()), prev.state().velocity() * dt + 0.5 * prev.state()
+            Assert.assertEquals(next.state().velocity(), prev.state().velocity() + prev.state().acceleration() * dt, 1E-9);
+            Assert.assertEquals(next.state().distance(prev.state()), prev.state().velocity() * dt + 0.5 * prev.state()
                     .acceleration() * dt * dt, 1E-9);
         }
 
@@ -116,7 +117,7 @@ public class IntegrationTest {
                     new DifferentialDrive.ChassisState(Units.inches_to_meters(state.acceleration()), state
                             .acceleration() * state.state().getCurvature()));
 
-//            System.out.println(state.toCSV() + ", " + dynamics.toCSV());
+            System.out.println(state.toCSV() + ", " + dynamics.toCSV());
         }
     }
 

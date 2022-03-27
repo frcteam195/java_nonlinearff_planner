@@ -7,14 +7,16 @@ import com.team254.lib.trajectory.DistanceView;
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.timing.TimingConstraint.MinMaxAcceleration;
 import com.team254.lib.util.Util;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
+@RunWith(JUnit4.class)
 public class TimingUtilTest {
 
     public static final double kTestEpsilon = Util.kEpsilon;
@@ -44,23 +46,23 @@ public class TimingUtilTest {
                                                      double end_vel,
                                                      double max_vel,
                                                      double max_acc) {
-        assertFalse(traj.isEmpty());
-        assertEquals(traj.getState(0).velocity(), start_vel, kTestEpsilon);
-        assertEquals(traj.getState(traj.length() - 1).velocity(), end_vel, kTestEpsilon);
+        Assert.assertFalse(traj.isEmpty());
+        Assert.assertEquals(traj.getState(0).velocity(), start_vel, kTestEpsilon);
+        Assert.assertEquals(traj.getState(traj.length() - 1).velocity(), end_vel, kTestEpsilon);
 
         // Go state by state, verifying all constraints are satisfied and integration is correct.
         for (int i = 0; i < traj.length(); ++i) {
             final TimedState<S> state = traj.getState(i);
             for (final TimingConstraint<S> constraint : constraints) {
-                assertTrue(state.velocity() - kTestEpsilon <= constraint.getMaxVelocity(state.state()));
+                Assert.assertTrue(state.velocity() - kTestEpsilon <= constraint.getMaxVelocity(state.state()));
                 final MinMaxAcceleration accel_limits = constraint.getMinMaxAcceleration(state.state(),
                         state.velocity());
-                assertTrue(state.acceleration() - kTestEpsilon <= accel_limits.max_acceleration());
-                assertTrue(state.acceleration() + kTestEpsilon >= accel_limits.min_acceleration());
+                Assert.assertTrue(state.acceleration() - kTestEpsilon <= accel_limits.max_acceleration());
+                Assert.assertTrue(state.acceleration() + kTestEpsilon >= accel_limits.min_acceleration());
             }
             if (i > 0) {
                 final TimedState<S> prev_state = traj.getState(i - 1);
-                assertEquals(state.velocity(),
+                Assert.assertEquals(state.velocity(),
                         prev_state.velocity() + (state.t() - prev_state.t()) * prev_state.acceleration(), kTestEpsilon);
             }
         }
@@ -74,17 +76,17 @@ public class TimingUtilTest {
         // Triangle profile.
         Trajectory<TimedState<Translation2d>> timed_traj = buildAndCheckTrajectory(dist_view, 1.0,
                 new ArrayList<TimingConstraint<Translation2d>>(), 0.0, 0.0, 20.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
 
         // Trapezoidal profile.
         timed_traj = buildAndCheckTrajectory(dist_view, 1.0, new ArrayList<TimingConstraint<Translation2d>>(), 0.0, 0.0,
                 10.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
 
         // Trapezoidal profile with start and end velocities.
         timed_traj = buildAndCheckTrajectory(dist_view, 1.0, new ArrayList<TimingConstraint<Translation2d>>(), 5.0, 2.0,
                 10.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
     }
 
     @Test
@@ -112,7 +114,7 @@ public class TimingUtilTest {
         // Trapezoidal profile.
         Trajectory<TimedState<Translation2d>> timed_traj = buildAndCheckTrajectory(dist_view, 1.0,
                 Arrays.asList(new ConditionalTimingConstraint<>()), 0.0, 0.0, 10.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
     }
 
     @Test
@@ -136,7 +138,7 @@ public class TimingUtilTest {
         // Trapezoidal profile.
         Trajectory<TimedState<Translation2d>> timed_traj = buildAndCheckTrajectory(dist_view, 1.0,
                 Arrays.asList(new ConditionalTimingConstraint<>()), 0.0, 0.0, 10.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
     }
 
     @Test
@@ -150,7 +152,7 @@ public class TimingUtilTest {
         // Trapezoidal profile.
         Trajectory<TimedState<Translation2d>> timed_traj = buildAndCheckTrajectory(dist_view, 1.0,
                 Arrays.asList(constraint), 0.0, 0.0, 10.0, 5.0);
-//        System.out.println(timed_traj.toCSV());
+        System.out.println(timed_traj.toCSV());
     }
 
 }

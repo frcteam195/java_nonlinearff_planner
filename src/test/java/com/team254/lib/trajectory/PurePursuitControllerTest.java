@@ -4,13 +4,15 @@ import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.geometry.Translation2d;
 import com.team254.lib.geometry.Twist2d;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-
+@RunWith(JUnit4.class)
 public class PurePursuitControllerTest {
 
     @Test
@@ -35,10 +37,10 @@ public class PurePursuitControllerTest {
                 break;
             Twist2d steering_command = controller.steer(robot_pose);
             steering_command = steering_command.scaled(1.0 / Math.max(1.0, steering_command.norm()));
-//            System.out.println("Iter: " + i + ", Pose: " + robot_pose + ", Steering Command: " + steering_command);
+            System.out.println("Iter: " + i + ", Pose: " + robot_pose + ", Steering Command: " + steering_command);
             robot_pose = robot_pose.transformBy(Pose2d.exp(steering_command));
         }
-        assertTrue(i < kMaxIter);
+        Assert.assertTrue(i < kMaxIter);
     }
 
 }

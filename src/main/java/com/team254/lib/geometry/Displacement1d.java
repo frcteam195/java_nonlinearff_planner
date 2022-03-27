@@ -1,7 +1,8 @@
 package com.team254.lib.geometry;
 
-import com.team195.lib.util.FastDoubleToString;
 import com.team254.lib.util.Util;
+
+import java.text.DecimalFormat;
 
 public class Displacement1d implements State<Displacement1d> {
 
@@ -31,19 +32,22 @@ public class Displacement1d implements State<Displacement1d> {
 
     @Override
     public boolean equals(final Object other) {
-        if (other == null || !(other instanceof Displacement1d)) return false;
+        if (!(other instanceof Displacement1d)) {
+            return false;
+        }
+
         return Util.epsilonEquals(x(), ((Displacement1d) other).x());
     }
 
     @Override
     public String toString() {
-//        final DecimalFormat fmt = new DecimalFormat("#0.000");
-        return "(" + FastDoubleToString.format(x()) + ")";
+        final DecimalFormat fmt = new DecimalFormat("#0.000");
+        return fmt.format("(" + x() + ")");
     }
 
     @Override
     public String toCSV() {
-//        final DecimalFormat fmt = new DecimalFormat("#0.000");
-        return FastDoubleToString.format(x());
+        final DecimalFormat fmt = new DecimalFormat("#0.000");
+        return fmt.format(x());
     }
 }

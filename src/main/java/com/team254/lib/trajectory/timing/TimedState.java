@@ -1,8 +1,9 @@
 package com.team254.lib.trajectory.timing;
 
-import com.team195.lib.util.FastDoubleToString;
 import com.team254.lib.geometry.State;
 import com.team254.lib.util.Util;
+
+import java.text.DecimalFormat;
 
 public class TimedState<S extends State<S>> implements State<TimedState<S>> {
     protected final S state_;
@@ -51,16 +52,16 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
 
     @Override
     public String toString() {
-//        final DecimalFormat fmt = new DecimalFormat("#0.000");
-        return state().toString() + ", t: " + FastDoubleToString.format(t()) + ", v: " + FastDoubleToString.format(velocity()) + ", a: "
-                + FastDoubleToString.format(acceleration());
+        final DecimalFormat fmt = new DecimalFormat("#0.000");
+        return state().toString() + ", t: " + fmt.format(t()) + ", v: " + fmt.format(velocity()) + ", a: "
+                + fmt.format(acceleration());
     }
 
     @Override
     public String toCSV() {
-//        final DecimalFormat fmt = new DecimalFormat("#0.000");
-        return state().toCSV() + "," + FastDoubleToString.format(t()) + "," + FastDoubleToString.format(velocity()) + ","
-                + FastDoubleToString.format(acceleration());
+        final DecimalFormat fmt = new DecimalFormat("#0.000");
+        return state().toCSV() + "," + fmt.format(t()) + "," + fmt.format(velocity()) + ","
+                + fmt.format(acceleration());
     }
 
     @Override
@@ -73,7 +74,7 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
         boolean reversing = velocity() < 0.0 || (Util.epsilonEquals(velocity(), 0.0) && acceleration() < 0.0);
         final double new_v = velocity() + acceleration() * delta_t;
         final double new_s = (reversing ? -1.0 : 1.0) * (velocity() * delta_t + .5 * acceleration() * delta_t * delta_t);
-        // ConsoleReporter.report("x: " + x + " , new_t: " + new_t + ", new_s: " + new_s + " , distance: " + state()
+        // System.out.println("x: " + x + " , new_t: " + new_t + ", new_s: " + new_s + " , distance: " + state()
         // .distance(other.state()));
         return new TimedState<S>(state().interpolate(other.state(), new_s / state().distance(other.state())),
                 new_t,

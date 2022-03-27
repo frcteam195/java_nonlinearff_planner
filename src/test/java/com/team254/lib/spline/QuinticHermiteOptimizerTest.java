@@ -4,15 +4,15 @@ import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.geometry.Translation2d;
 import com.team254.lib.util.Util;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-
+@RunWith(JUnit4.class)
 public class QuinticHermiteOptimizerTest {
     private static double kEpsilon = Util.kEpsilon;
 
@@ -27,7 +27,7 @@ public class QuinticHermiteOptimizerTest {
         splines.add(new QuinticHermiteSpline(b, c));
 
         long startTime = System.currentTimeMillis();
-        assertTrue(QuinticHermiteSpline.optimizeSpline(splines) < 0.014);
+        Assert.assertTrue(QuinticHermiteSpline.optimizeSpline(splines) < 0.014);
         System.out.println("Optimization time (ms): " + (System.currentTimeMillis() - startTime));
 
         Pose2d d = new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(90));
@@ -41,7 +41,7 @@ public class QuinticHermiteOptimizerTest {
         splines1.add(new QuinticHermiteSpline(f, g));
 
         startTime = System.currentTimeMillis();
-        assertTrue(QuinticHermiteSpline.optimizeSpline(splines1) < 0.16);
+        Assert.assertTrue(QuinticHermiteSpline.optimizeSpline(splines1) < 0.16);
         System.out.println("Optimization time (ms): " + (System.currentTimeMillis() - startTime));
 
 
@@ -58,9 +58,9 @@ public class QuinticHermiteOptimizerTest {
         splines2.add(new QuinticHermiteSpline(k, l));
 
         startTime = System.currentTimeMillis();
-        assertTrue(QuinticHermiteSpline.optimizeSpline(splines2) < 0.05);
-        assertEquals(splines2.get(0).getCurvature(1.0), 0.0, kEpsilon);
-        assertEquals(splines2.get(2).getCurvature(1.0), 0.0, kEpsilon);
+        Assert.assertTrue(QuinticHermiteSpline.optimizeSpline(splines2) < 0.05);
+        Assert.assertEquals(splines2.get(0).getCurvature(1.0), 0.0, kEpsilon);
+        Assert.assertEquals(splines2.get(2).getCurvature(1.0), 0.0, kEpsilon);
         System.out.println("Optimization time (ms): " + (System.currentTimeMillis() - startTime));
     }
 }

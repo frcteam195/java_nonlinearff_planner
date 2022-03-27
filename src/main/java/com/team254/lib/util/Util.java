@@ -1,19 +1,19 @@
 package com.team254.lib.util;
 
+import com.team254.frc2020.Constants;
+
 import java.util.List;
 
 /**
  * Contains basic functions that are used often.
  */
 public class Util {
-
     public static final double kEpsilon = 1e-12;
 
     /**
      * Prevent this class from being instantiated.
      */
-    private Util() {
-    }
+    private Util() {}
 
     /**
      * Limits the given input to the given magnitude.
@@ -24,6 +24,17 @@ public class Util {
 
     public static double limit(double v, double min, double max) {
         return Math.min(max, Math.max(min, v));
+    }
+
+    public static boolean inRange(double v, double maxMagnitude) {
+        return inRange(v, -maxMagnitude, maxMagnitude);
+    }
+
+    /**
+     * Checks if the given input is within the range (min, max), both exclusive.
+     */
+    public static boolean inRange(double v, double min, double max) {
+        return v > min && v < max;
     }
 
     public static double interpolate(double a, double b, double x) {
@@ -60,5 +71,14 @@ public class Util {
             result &= epsilonEquals(value_in, value, epsilon);
         }
         return result;
+    }
+
+    public static double handleDeadband(double value, double deadband) {
+        deadband = Math.abs(deadband);
+        if (deadband == 1) {
+            return 0;
+        }
+        double scaledValue = (value + (value < 0 ? deadband : -deadband)) / (1 - deadband);
+        return (Math.abs(value) > Math.abs(deadband)) ? scaledValue : 0;
     }
 }

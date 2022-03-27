@@ -1,23 +1,19 @@
 package com.team254.lib.util;
 
-import com.team195.lib.util.FastDoubleToString;
-
 import java.util.ArrayList;
 
 /**
  * Helper class for storing and calculating a moving average
  */
 public class MovingAverage {
-
-    private final ArrayList<Double> numbers;
-    private final int maxSize;
+    ArrayList<Double> numbers = new ArrayList<Double>();
+    private int maxSize;
 
     public MovingAverage(int maxSize) {
         this.maxSize = maxSize;
-        numbers = new ArrayList<>(maxSize);
     }
 
-    public void addNumber(double newNumber) {
+    public void add(double newNumber) {
         numbers.add(newNumber);
         if (numbers.size() > maxSize) {
             numbers.remove(0);
@@ -27,20 +23,11 @@ public class MovingAverage {
     public double getAverage() {
         double total = 0;
 
-        if (numbers.size() > 0) {
-            for (double number : numbers) {
-                total += number;
-            }
-
-            return total / numbers.size();
+        for (double number : numbers) {
+            total += number;
         }
-        else {
-            return 0;
-        }
-    }
 
-    public double getLastSample() {
-        return numbers.get(numbers.size() - 1);
+        return total / numbers.size();
     }
 
     public int getSize() {
@@ -55,8 +42,4 @@ public class MovingAverage {
         numbers.clear();
     }
 
-    @Override
-    public String toString() {
-        return FastDoubleToString.format(getAverage());
-    }
 }

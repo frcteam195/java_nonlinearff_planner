@@ -2,12 +2,14 @@ package com.team254.lib.spline;
 
 import com.team254.lib.geometry.*;
 import com.team254.lib.util.Util;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
+@RunWith(JUnit4.class)
 public class SplineGeneratorTest {
     public static final double kTestEpsilon = Util.kEpsilon;
 
@@ -28,9 +30,9 @@ public class SplineGeneratorTest {
             cur_pose = sample;
         }
 
-        assertEquals(cur_pose.getTranslation().x(), 15.0, kTestEpsilon);
-        assertEquals(cur_pose.getTranslation().y(), 10.0, kTestEpsilon);
-        assertEquals(cur_pose.getRotation().getDegrees(), -78.69006752597981, kTestEpsilon);
-        assertEquals(arclength, 23.17291953186379, kTestEpsilon);
+        Assert.assertEquals(cur_pose.getTranslation().x(), 15.0, kTestEpsilon);
+        Assert.assertEquals(cur_pose.getTranslation().y(), 10.0, kTestEpsilon);
+        Assert.assertEquals(cur_pose.getRotation().getDegrees(), -78.69006752597981, kTestEpsilon);
+        Assert.assertEquals(arclength, 23.17291953186379, kTestEpsilon);
     }
 }
