@@ -1,0 +1,3 @@
+[submodule "src/main/proto"]
+	path = src/main/proto
+	url = git@github.com:frcteam195/quesadilla_ros_proto.git
