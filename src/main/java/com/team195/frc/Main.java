@@ -13,6 +13,11 @@ import com.team254.lib.util.DriveOutput;
 import com.team195.protos.PlannerInput;
 import com.team195.protos.PlannerOutput;
 import com.team254.lib.util.Units;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,12 +31,18 @@ public final class Main {
     private static final PlannerOutput.Builder outputProtoBuilder = PlannerOutput.newBuilder();
 
     private static final byte[] mInputByteArr = new byte[16384];
-    private static byte[] mOutputByteArr = new byte[16384];
+    private static byte[] mOutputByteArr = null;
+
+    private static InetAddress mIPAddress;
+    private static DatagramSocket mClientSocket;
+    private static DatagramPacket mSendPacket;
+    private static DatagramPacket mReceivePacket;
+
+    private static final int PORT_NUM = 5803;
 
     public static void main(String... args)
     {
         Arrays.fill(mInputByteArr, (byte)0);
-        Arrays.fill(mOutputByteArr, (byte)0);
         TrajectoryGenerator.getInstance().generateTrajectories();
 
         Thread mDrivePlannerThread = new Thread(() ->
@@ -40,12 +51,50 @@ public final class Main {
             TrajectoryIterator<TimedState<Pose2dWithCurvature>> mTrajectory;
             while (runThread.get())
             {
-                //TODO: Receive UDP byte arr
+                if (mClientSocket == null)
+                {
+                    try {
+                        mClientSocket = new DatagramSocket(PORT_NUM);
+                    }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                        mClientSocket = null;
+                        continue;
+                    }
+                }
+
+                if (mIPAddress == null)
+                {
+                    try {
+                        mIPAddress = InetAddress.getByName("10.1.95.5");
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                        mIPAddress = null;
+                        continue;
+                    }
+                }
+
+                if (mReceivePacket == null)
+                {
+                    mReceivePacket = new DatagramPacket(mInputByteArr, mInputByteArr.length, new InetSocketAddress(0).getAddress(), PORT_NUM);
+                }
+
+                try {
+                    mClientSocket.receive(mReceivePacket);
+                }
+                catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                    continue;
+                }
 
                 PlannerInput plannerNetInput;
                 try
                 {
-                    plannerNetInput = PlannerInput.parseFrom(mInputByteArr);
+                    plannerNetInput = PlannerInput.parseFrom(mReceivePacket.getData());
                 }
                 catch (InvalidProtocolBufferException e)
                 {
@@ -63,8 +112,6 @@ public final class Main {
                     mInputData.beginTrajectory = plannerNetInput.getBeginTrajectory();
                     mInputData.forceStop = plannerNetInput.getForceStop();
                     mInputData.trajectoryID = plannerNetInput.getTrajectoryId();
-
-
 
                     if (!mOutputData.trajectoryActive) {
                         if (mInputData.beginTrajectory) {
@@ -114,7 +161,12 @@ public final class Main {
                     .setTrajectoryCompleted(mOutputData.trajectoryCompleted)
                     .build().toByteArray();
 
-                //TODO: Send UDP Byte Arr
+                mSendPacket = new DatagramPacket(mOutputByteArr, mOutputByteArr.length, mIPAddress, PORT_NUM);
+                try {
+                    mClientSocket.send(mSendPacket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mDrivePlannerThread.start();
