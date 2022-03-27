@@ -88,6 +88,7 @@ public final class Main {
                 catch (IOException ex)
                 {
                     ex.printStackTrace();
+                    mReceivePacket = null;
                     continue;
                 }
 
@@ -166,6 +167,7 @@ public final class Main {
                     mClientSocket.send(mSendPacket);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    mSendPacket = null;
                 }
             }
         });
