@@ -5,14 +5,10 @@ import com.team254.frc2020.planners.DriveMotionPlanner;
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Pose2dWithCurvature;
 import com.team254.lib.trajectory.TimedView;
-import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.TrajectoryIterator;
 import com.team254.lib.trajectory.timing.TimedState;
 import com.team254.lib.util.DriveOutput;
-import com.team254.lib.util.DriveSignal;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Main {
@@ -39,20 +35,6 @@ public final class Main {
         public boolean trajectoryCompleted = false;
     }
 
-    //INPUT
-    // Timestamp
-    // Pose
-    // Force Stop
-    // Begin Trajectory
-    // Trajectory ID
-
-    //OUTPUT
-    // Left Motor Output
-    // Left Motor ArbFF
-    // Right Motor Output
-    // Right Motor ArbFF
-    // Trajectory Active
-    // Trajectory Completed
     private static AtomicBoolean runThread = new AtomicBoolean(true);
     private static Thread mDrivePlannerThread;
     private static InputData mInputData = new InputData();
@@ -116,5 +98,15 @@ public final class Main {
                 }
             }
         });
+        mDrivePlannerThread.start();
+
+        try
+        {
+            mDrivePlannerThread.join();
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
+        }
     }
 }
