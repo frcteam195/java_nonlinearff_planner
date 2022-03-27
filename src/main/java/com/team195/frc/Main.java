@@ -128,11 +128,11 @@ public final class Main {
                     if (mOutputData.trajectoryActive && !mOutputData.trajectoryCompleted) {
                         DriveOutput d = motionPlanner.update(mInputData.timestamp, mInputData.poseInches);
                         mOutputData.leftMotorOutputRadPerSec = d.left_velocity;
-                        mOutputData.leftMotorFeedForwardVoltage = d.left_feedforward_voltage;
+                        mOutputData.leftMotorFeedforwardVoltage = d.left_feedforward_voltage;
                         mOutputData.leftMotorAccelRadPerSec2 = d.left_accel;
 
                         mOutputData.rightMotorOutputRadPerSec = d.right_velocity;
-                        mOutputData.rightMotorFeedForwardVoltage = d.right_feedforward_voltage;
+                        mOutputData.rightMotorFeedforwardVoltage = d.right_feedforward_voltage;
                         mOutputData.rightMotorAccelRadPerSec2 = d.right_accel;
                         mOutputData.trajectoryActive = true;
                     } else {
@@ -153,10 +153,10 @@ public final class Main {
 
                 mOutputByteArr = outputProtoBuilder
                     .setLeftMotorOutputRadPerSec(mOutputData.leftMotorOutputRadPerSec)
-                    .setLeftMotorFeedForwardVoltage(mOutputData.leftMotorFeedForwardVoltage)
+                    .setLeftMotorFeedforwardVoltage(mOutputData.leftMotorFeedforwardVoltage)
                     .setLeftMotorAccelRadPerSec2(mOutputData.leftMotorAccelRadPerSec2)
                     .setRightMotorOutputRadPerSec(mOutputData.rightMotorOutputRadPerSec)
-                    .setRightMotorFeedForwardVoltage(mOutputData.rightMotorFeedForwardVoltage)
+                    .setRightMotorFeedforwardVoltage(mOutputData.rightMotorFeedforwardVoltage)
                     .setRightMotorAccelRadPerSec2(mOutputData.rightMotorAccelRadPerSec2)
                     .setTrajectoryActive(mOutputData.trajectoryActive)
                     .setTrajectoryCompleted(mOutputData.trajectoryCompleted)
