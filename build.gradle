@@ -1,6 +1,19 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
+    }
+}
+
 plugins {
     id 'java'
+    id 'war'
 }
+
+apply plugin: 'com.bmuschko.tomcat'
 
 group 'com.team195'
 version '1.0-SNAPSHOT'
@@ -14,6 +27,32 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 //    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    def tomcatVersion = '9.0.30'
+    def tomcatLoggingVersion = '9.0.0.M6'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatLoggingVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    implementation("org.springframework:spring-webmvc:5.2.3.RELEASE")
+    implementation("javax.servlet:javax.servlet-api:4.0.1")
+    implementation("javax.servlet:jstl:1.2")
+}
+
+// context where tomcat is deployed, by default localhost:8080/
+tomcatRun.contextPath = '/'
+tomcatRunWar.contextPath = '/'
+
+tomcat {
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+}
+
+war {
+    //entryCompression = ZipEntryCompression.STORED
+    //noinspection GroovyAccessibility
+    //noinspection GroovyAssignabilityCheck
+    webAppDirectory = file('src/main/webapp')
 }
 
 test {
