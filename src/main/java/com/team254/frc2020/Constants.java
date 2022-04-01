@@ -11,26 +11,26 @@ import com.team254.lib.util.Units;
  */
 public class Constants {
     // Drive ratio.
-    public static final double kDriveHighGearReduction = 40.0 / 11.0 * 50.0 / 14.0; //12.987
-    public static final double kGearRatioScalar = (1.0 / (40.0 / 10.0 * 50.0 / 14.0)) / (1.0 / kDriveHighGearReduction);
+    public static final double kDriveHighGearReduction = 50.0 / 11.0 * 44.0 / 30.0; //6.6666666667
+    public static final double kGearRatioScalar = (1.0 / (50.0 / 10.0 * 44.0 / 30.0)) / (1.0 / kDriveHighGearReduction);
     // Wheel parameters.
-    public static final double kDriveWheelTrackWidthInches = 30.0; //tuned 3/2
-    public static final double kDriveWheelDiameterInches = 5.9067052758; //tuned 3/2
+    public static final double kDriveWheelTrackWidthInches = 25.625; //tuned 3/2
+    public static final double kDriveWheelDiameterInches = 4.0025; //tuned 3/2
     public static final double kDriveWheelRadiusInches = kDriveWheelDiameterInches / 2.0;
     public static final double kDriveWheelRadiusMeters = Units.inches_to_meters(kDriveWheelDiameterInches);
     public static final double kDriveWheelTrackRadiusWidthMeters = kDriveWheelTrackWidthInches / 2.0 * 0.0254;
     public static final double kTrackScrubFactor = 1.0;
 
     // robot dynamics TODO tune
-    public static final double kDriveVIntercept = 0.352; // V TODO
-    public static final double kDriveLinearKv = 0.0438 / 2.0 * Constants.kDriveWheelDiameterInches; // V / rad/s
+    public static final double kDriveVIntercept = 0.378582; // V
+    public static final double kDriveLinearKv = 0.113699 / 2.0 * Constants.kDriveWheelDiameterInches; // V / rad/s
     public static final double kFalcon500StallTorque = 4.69; // N*m
     public static final double kAssumedTorqueEfficiency = 0.95;
-    public static final double kRobotLinearInertia = 62.051; // kg TODO
-    public static final double kNumMotors = 6;
+    public static final double kRobotLinearInertia = 68.946; //62.051; // kg TODO
+    public static final double kNumMotors = 4;
     public static final double kDriveAnalyticalLinearKa = 12.0 /* V */ / ((kDriveHighGearReduction * kFalcon500StallTorque * kAssumedTorqueEfficiency * kNumMotors) / (kRobotLinearInertia * kDriveWheelRadiusMeters * kDriveWheelRadiusMeters));
-    public static final double kDriveLinearKa = 0.00597 / 2.0 * Constants.kDriveWheelDiameterInches * kGearRatioScalar; // V / rad/s^2
-    public static final double kDriveAngularKa = 0.00517 / 2.0 * Constants.kDriveWheelDiameterInches * kGearRatioScalar; // V per rad/s^2
+    public static final double kDriveLinearKa = 0.010351 / 2.0 * Constants.kDriveWheelDiameterInches * kGearRatioScalar; // V / rad/s^2
+    public static final double kDriveAngularKa = 0.008630 / 2.0 * Constants.kDriveWheelDiameterInches * kGearRatioScalar; // V per rad/s^2
     public static final double kRobotAngularInertia = kDriveAngularKa / kDriveLinearKa *
             kDriveWheelTrackRadiusWidthMeters * kDriveWheelTrackRadiusWidthMeters * kRobotLinearInertia;  // kg m^2
     public static final double kRobotAngularDrag = 15.0; // N*m / (rad/sec)

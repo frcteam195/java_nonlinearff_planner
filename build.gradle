@@ -13,6 +13,8 @@ plugins {
     id 'java'
     id 'war'
     id 'idea'
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 apply plugin: 'com.bmuschko.tomcat'
@@ -24,8 +26,14 @@ repositories {
     mavenCentral()
 }
 
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.team195.frc.Main'
+    }
+}
+
 dependencies {
-    implementation 'gov.nist.math:jama:1.0.3'
+    api 'gov.nist.math:jama:1.0.3'
     testImplementation 'junit:junit:4.12'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 //    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -40,7 +48,7 @@ dependencies {
     implementation("javax.servlet:javax.servlet-api:4.0.1")
     implementation("javax.servlet:jstl:1.2")
 
-    implementation('com.google.protobuf:protobuf-java:3.18.0')
+    api('com.google.protobuf:protobuf-java:3.18.0')
 }
 
 sourceSets {

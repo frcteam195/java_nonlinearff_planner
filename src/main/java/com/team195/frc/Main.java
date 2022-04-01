@@ -38,7 +38,8 @@ public final class Main {
     private static DatagramPacket mSendPacket;
     private static DatagramPacket mReceivePacket;
 
-    private static final int PORT_NUM = 5803;
+    private static final int SEND_PORT_NUM = 5803;
+    private static final int RECV_PORT_NUM = 5804;
 
     public static void main(String... args)
     {
@@ -54,7 +55,7 @@ public final class Main {
                 if (mClientSocket == null)
                 {
                     try {
-                        mClientSocket = new DatagramSocket(PORT_NUM);
+                        mClientSocket = new DatagramSocket(RECV_PORT_NUM);
                     }
                     catch (IOException ex)
                     {
@@ -79,7 +80,7 @@ public final class Main {
 
                 if (mReceivePacket == null)
                 {
-                    mReceivePacket = new DatagramPacket(mInputByteArr, mInputByteArr.length, new InetSocketAddress(0).getAddress(), PORT_NUM);
+                    mReceivePacket = new DatagramPacket(mInputByteArr, mInputByteArr.length, new InetSocketAddress(0).getAddress(), RECV_PORT_NUM);
                 }
 
                 try {
@@ -95,7 +96,9 @@ public final class Main {
                 PlannerInput plannerNetInput;
                 try
                 {
-                    plannerNetInput = PlannerInput.parseFrom(mReceivePacket.getData());
+                    byte[] tmpArr = new byte[mReceivePacket.getLength()];
+                    System.arraycopy(mReceivePacket.getData(), mReceivePacket.getOffset(), tmpArr, 0, mReceivePacket.getLength());
+                    plannerNetInput = PlannerInput.parseFrom(tmpArr);
                 }
                 catch (InvalidProtocolBufferException e)
                 {
@@ -104,10 +107,11 @@ public final class Main {
                 }
 
                 if (plannerNetInput != null) {
+                    //System.out.println("X: " + plannerNetInput.getPose().getX() + " Y: " + plannerNetInput.getPose().getY() + " ø: " + plannerNetInput.getPose().getYaw());
                     mInputData.timestamp = plannerNetInput.getTimestamp();
                     mInputData.poseInches = new Pose2d(
-                            Units.meters_to_inches(plannerNetInput.getPose().getX()),
-                            Units.meters_to_inches(plannerNetInput.getPose().getY()),
+                            plannerNetInput.getPose().getX(),
+                            plannerNetInput.getPose().getY(),
                             Rotation2d.fromRadians(plannerNetInput.getPose().getYaw())
                     );
                     mInputData.beginTrajectory = plannerNetInput.getBeginTrajectory();
@@ -141,9 +145,14 @@ public final class Main {
                         mOutputData.trajectoryCompleted = tmpTrajCompleted;
                     }
 
-                    if (motionPlanner.isDone() || mInputData.forceStop) {
+                    if (motionPlanner.isDone()) {
                         mOutputData.setZeros();
                         mOutputData.trajectoryCompleted = true;
+                    }
+
+                    if (mInputData.forceStop)
+                    {
+                        mOutputData.setZeros();
                     }
                 }
                 else
@@ -162,7 +171,7 @@ public final class Main {
                     .setTrajectoryCompleted(mOutputData.trajectoryCompleted)
                     .build().toByteArray();
 
-                mSendPacket = new DatagramPacket(mOutputByteArr, mOutputByteArr.length, mIPAddress, PORT_NUM);
+                mSendPacket = new DatagramPacket(mOutputByteArr, mOutputByteArr.length, mIPAddress, SEND_PORT_NUM);
                 try {
                     mClientSocket.send(mSendPacket);
                 } catch (IOException e) {
