@@ -139,15 +139,17 @@ public final class Main {
                         mOutputData.rightMotorFeedforwardVoltage = d.right_feedforward_voltage;
                         mOutputData.rightMotorAccelRadPerSec2 = d.right_accel;
                         mOutputData.trajectoryActive = true;
-                    } else {
-                        boolean tmpTrajCompleted = mOutputData.trajectoryCompleted;
-                        mOutputData.setZeros();
-                        mOutputData.trajectoryCompleted = tmpTrajCompleted;
                     }
 
-                    if (motionPlanner.isDone() || mInputData.forceStop) {
+                    if (motionPlanner.isDone()) {
                         mOutputData.setZeros();
                         mOutputData.trajectoryCompleted = true;
+                    }
+
+                    if (mInputData.forceStop)
+                    {
+                        mOutputData.setZeros();
+                        motionPlanner.reset();
                     }
                 }
                 else
