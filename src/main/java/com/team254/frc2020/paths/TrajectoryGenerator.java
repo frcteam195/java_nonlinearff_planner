@@ -107,7 +107,7 @@ public class TrajectoryGenerator {
     }
 
     public static class Auto2_2ball_Points {
-        public static final Pose2d kStartPose2 = new Pose2d(238.7240157, -120.2307087, Rotation2d.fromDegrees(135));   //245,-125
+        public static final Pose2d kStartPose2 = new Pose2d(238.7240157, -120.2307087, Rotation2d.fromDegrees(136.500));   //245,-125
         public static final Pose2d kBall1Pickup = new Pose2d(215, -95, Rotation2d.fromDegrees(135));  //220,-267
 
         public static Trajectory<TimedState<Pose2dWithCurvature>> getStart2ToPickupBall1() {
