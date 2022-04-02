@@ -145,14 +145,9 @@ public final class Main {
                         mOutputData.trajectoryCompleted = tmpTrajCompleted;
                     }
 
-                    if (motionPlanner.isDone()) {
+                    if (motionPlanner.isDone() || mInputData.forceStop) {
                         mOutputData.setZeros();
                         mOutputData.trajectoryCompleted = true;
-                    }
-
-                    if (mInputData.forceStop)
-                    {
-                        mOutputData.setZeros();
                     }
                 }
                 else
