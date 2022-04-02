@@ -82,10 +82,10 @@ public class TrajectoryGenerator {
 
     public static class Auto1_5ball_Points {
         public static final Pose2d kStartPose1 = new Pose2d(297.9799213, -253.3216535, Rotation2d.fromDegrees(-88.49998937578972));  //302,-245
-        public static final Pose2d kBall3Pickup = new Pose2d(301, -275, Rotation2d.fromDegrees(-92));   //301,-270
-        public static final Pose2d kBall3PickupStartPath2 = new Pose2d(301, -275, Rotation2d.fromDegrees(-180));   //301,-270
+        public static final Pose2d kBall3Pickup = new Pose2d(301, -286, Rotation2d.fromDegrees(-92));   //301,-270
+        public static final Pose2d kBall3PickupStartPath2 = new Pose2d(301, -286, Rotation2d.fromDegrees(-180));   //301,-270
         public static final Pose2d kBall2Pickup = new Pose2d(220, -267, Rotation2d.fromDegrees(140));  //220,-267
-        public static final Pose2d kBall7Pickup = new Pose2d(68, -265, Rotation2d.fromDegrees(-145));  //60,-260
+        public static final Pose2d kBall7Pickup = new Pose2d(63, -265, Rotation2d.fromDegrees(-145));  //60,-260
 
         public static Trajectory<TimedState<Pose2dWithCurvature>> getStart1ToPickupBall3() {
             List<Pose2d> waypoints = new ArrayList<>();
