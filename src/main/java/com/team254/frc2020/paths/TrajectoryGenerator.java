@@ -41,10 +41,12 @@ public class TrajectoryGenerator {
             trajectoryLookupMap.put(0, mTrajectorySet.auto1_start1ToPickupBall3);
             trajectoryLookupMap.put(1, mTrajectorySet.auto1_pickupBall3ToPickupBall2and7);
             trajectoryLookupMap.put(2, mTrajectorySet.auto2_start2ToPickupBall1);
-            trajectoryLookupMap.put(3, mTrajectorySet.auto3_start1ToPickupBall3);
-            trajectoryLookupMap.put(4, mTrajectorySet.auto3_pickupBall3ToPickupBall2);
-            trajectoryLookupMap.put(5, mTrajectorySet.auto3_pickupBall2ToPickupBall7);
-            trajectoryLookupMap.put(6, mTrajectorySet.auto3_pickupBall7ToFinalShoot);
+            trajectoryLookupMap.put(3, mTrajectorySet.auto3_start3ToPickupBall2);
+            trajectoryLookupMap.put(4, mTrajectorySet.auto3_pickupBall2ToFieldLine);
+            trajectoryLookupMap.put(5, mTrajectorySet.auto4_start1ToPickupBall3);
+            trajectoryLookupMap.put(6, mTrajectorySet.auto4_pickupBall3ToPickupBall2);
+            trajectoryLookupMap.put(7, mTrajectorySet.auto4_pickupBall2ToPickupBall7);
+            trajectoryLookupMap.put(8, mTrajectorySet.auto4_pickupBall7ToFinalShoot);
             System.out.println("Finished trajectory generation");
         }
     }
@@ -119,7 +121,29 @@ public class TrajectoryGenerator {
         }
     }
 
-    public static class Auto3_5ball_Alternate_Points {
+    public static class Auto3_2ball_Points {
+        public static final Pose2d kStartPose3 = new Pose2d(268, -220, Rotation2d.fromDegrees(-156.000));   //rviz 258.523622, -217.8472441
+        public static final Pose2d kBall2Pickup = new Pose2d(161, -186, Rotation2d.fromDegrees(162));
+        public static final Pose2d kFieldLineWait = new Pose2d(252, -100, Rotation2d.fromDegrees(30));
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getStart3ToPickupBall2() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kStartPose3);
+            waypoints.add(kBall2Pickup);
+            return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getPickupBall2ToFieldLine() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kBall2Pickup);
+            waypoints.add(kFieldLineWait);
+            return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+    }
+
+    public static class Auto4_5ball_Alternate_Points {
         public static final Pose2d kStartPose1 = new Pose2d(297.9799213, -253.3216535, Rotation2d.fromDegrees(-88.49998937578972));  //302,-245
         public static final Pose2d kBall3Pickup = new Pose2d(301, -275, Rotation2d.fromDegrees(-92));   //301,-270
         public static final Pose2d kBall3PickupStartPath2 = new Pose2d(301, -275, Rotation2d.fromDegrees(-180));   //301,-270
@@ -173,11 +197,15 @@ public class TrajectoryGenerator {
         //Auto 2
         public final Trajectory<TimedState<Pose2dWithCurvature>> auto2_start2ToPickupBall1;
 
+        //Auto 4
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_start3ToPickupBall2;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_pickupBall2ToFieldLine;
+
         //Auto 3
-        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_start1ToPickupBall3;
-        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_pickupBall3ToPickupBall2;
-        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_pickupBall2ToPickupBall7;
-        public final Trajectory<TimedState<Pose2dWithCurvature>> auto3_pickupBall7ToFinalShoot;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto4_start1ToPickupBall3;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto4_pickupBall3ToPickupBall2;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto4_pickupBall2ToPickupBall7;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto4_pickupBall7ToFinalShoot;
 
 
 
@@ -194,10 +222,14 @@ public class TrajectoryGenerator {
             auto2_start2ToPickupBall1 = Auto2_2ball_Points.getStart2ToPickupBall1();
 
             //Auto 3
-            auto3_start1ToPickupBall3 = Auto3_5ball_Alternate_Points.getStart1ToPickupBall3();
-            auto3_pickupBall3ToPickupBall2 = Auto3_5ball_Alternate_Points.getPickupBall3ToPickupBall2();
-            auto3_pickupBall2ToPickupBall7 = Auto3_5ball_Alternate_Points.getPickupBall2ToPickupBall7();
-            auto3_pickupBall7ToFinalShoot = Auto3_5ball_Alternate_Points.getPickupBall7ToFinalShoot();
+            auto3_start3ToPickupBall2 = Auto3_2ball_Points.getStart3ToPickupBall2();
+            auto3_pickupBall2ToFieldLine = Auto3_2ball_Points.getPickupBall2ToFieldLine();
+
+            //Auto 3
+            auto4_start1ToPickupBall3 = Auto4_5ball_Alternate_Points.getStart1ToPickupBall3();
+            auto4_pickupBall3ToPickupBall2 = Auto4_5ball_Alternate_Points.getPickupBall3ToPickupBall2();
+            auto4_pickupBall2ToPickupBall7 = Auto4_5ball_Alternate_Points.getPickupBall2ToPickupBall7();
+            auto4_pickupBall7ToFinalShoot = Auto4_5ball_Alternate_Points.getPickupBall7ToFinalShoot();
         }
 
         private Trajectory<TimedState<Pose2dWithCurvature>> getTestTrajectory() {
