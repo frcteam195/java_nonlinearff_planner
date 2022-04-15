@@ -51,6 +51,10 @@ public class TrajectoryGenerator {
             trajectoryLookupMap.put(9, mTrajectorySet.auto5_pickupBall2ToPickupBall7);
             trajectoryLookupMap.put(10, mTrajectorySet.auto5_pickupBall7ToFinalShoot);
             trajectoryLookupMap.put(11, mTrajectorySet.auto1_pickupBall7ToFinalShoot);
+            trajectoryLookupMap.put(12, mTrajectorySet.auto6_getStartToPickupBall3);
+            trajectoryLookupMap.put(13, mTrajectorySet.auto6_getPickupBall3ToPickupAndShootBall2);
+            trajectoryLookupMap.put(14, mTrajectorySet.auto6_getPickupAndShootBall2ToPickupBall7);
+            trajectoryLookupMap.put(15, mTrajectorySet.auto6_getPickupBall7ToFinalShootPose);
             System.out.println("Finished trajectory generation");
         }
     }
@@ -85,6 +89,50 @@ public class TrajectoryGenerator {
     public static final Pose2d kBall2 = new Pose2d(199.053937, -250.30315, Rotation2d.fromDegrees(0));  //200,-251
     public static final Pose2d kBall3 = new Pose2d(298.0893701, -312.7901575, Rotation2d.fromDegrees(0));    //298,-313
     public static final Pose2d kBall7 = new Pose2d(42.03031496, -280.783465, Rotation2d.fromDegrees(0));  //42,280
+
+    public static class Auto6_5ball_Points {
+        public static final Pose2d kStartPose1 = new Pose2d(297.9799213, -253.3216535, Rotation2d.fromDegrees(-88.49998937578972));  //302,-245
+        public static final Pose2d kBall3Pickup = new Pose2d(301, -286, Rotation2d.fromDegrees(-92));   //301,-270    }
+        public static final Pose2d kBall3PickupStartPath2 = new Pose2d(301, -286, Rotation2d.fromDegrees(-180));
+        public static final Pose2d kBall2PickupAndShoot = new Pose2d(150, -230, Rotation2d.fromDegrees(-200));
+        public static final Pose2d kBall2PickupAndShootStartPath3 = new Pose2d(150, -230, Rotation2d.fromDegrees(-180));
+        // public static final Pose2d kBall2PickupAndShootStartPath3 = new Pose2d(150, -230, Rotation2d.fromDegrees(-180));
+        public static final Pose2d kBall7Pickup = new Pose2d(63, -265, Rotation2d.fromDegrees(-140));
+        public static final Pose2d kFinalShootPose = new Pose2d(77, -255, Rotation2d.fromDegrees(-140));
+
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getStartToPickupBall3() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kStartPose1);
+            waypoints.add(kBall3Pickup);
+            return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getPickupBall3ToPickupAndShootBall2() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kBall3PickupStartPath2);
+            waypoints.add(kBall2PickupAndShoot);
+            return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getPickupAndShootBall2ToPickupBall7() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kBall2PickupAndShootStartPath3);
+            waypoints.add(kBall7Pickup);
+            return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+
+        public static Trajectory<TimedState<Pose2dWithCurvature>> getPickupBall7ToFinalShootPose() {
+            List<Pose2d> waypoints = new ArrayList<>();
+            waypoints.add(kBall7Pickup);
+            waypoints.add(kFinalShootPose);
+            return generateTrajectory(true, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
+                    kMaxVel, kMaxAccel, kMaxVoltage);
+        }
+    }
 
     public static class Auto1_5ball_Points {
         public static final Pose2d kStartPose1 = new Pose2d(297.9799213, -253.3216535, Rotation2d.fromDegrees(-88.49998937578972));  //302,-245
@@ -249,7 +297,11 @@ public class TrajectoryGenerator {
         public final Trajectory<TimedState<Pose2dWithCurvature>> auto5_pickupBall2ToPickupBall7;
         public final Trajectory<TimedState<Pose2dWithCurvature>> auto5_pickupBall7ToFinalShoot;
 
-
+        //Auto 6
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto6_getStartToPickupBall3;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto6_getPickupBall3ToPickupAndShootBall2;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto6_getPickupAndShootBall2ToPickupBall7;
+        public final Trajectory<TimedState<Pose2dWithCurvature>> auto6_getPickupBall7ToFinalShootPose;
 
         private TrajectorySet() {
             //Test
@@ -277,6 +329,12 @@ public class TrajectoryGenerator {
             auto5_pickupBall3ToPickupBall2 = Auto5_5ball_Alternate_Points.getPickupBall3ToPickupBall2();
             auto5_pickupBall2ToPickupBall7 = Auto5_5ball_Alternate_Points.getPickupBall2ToPickupBall7();
             auto5_pickupBall7ToFinalShoot = Auto5_5ball_Alternate_Points.getPickupBall7ToFinalShoot();
+
+            //Auto 6
+            auto6_getStartToPickupBall3 = Auto6_5ball_Points.getStartToPickupBall3();
+            auto6_getPickupBall3ToPickupAndShootBall2 = Auto6_5ball_Points.getPickupBall3ToPickupAndShootBall2();
+            auto6_getPickupAndShootBall2ToPickupBall7 = Auto6_5ball_Points.getPickupAndShootBall2ToPickupBall7();
+            auto6_getPickupBall7ToFinalShootPose = Auto6_5ball_Points.getPickupBall7ToFinalShootPose();
         }
 
         private Trajectory<TimedState<Pose2dWithCurvature>> getTestTrajectory() {

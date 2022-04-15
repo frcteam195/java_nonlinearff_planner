@@ -30,6 +30,8 @@ public final class Main {
     private static final OutputData mOutputData = new OutputData();
     private static final PlannerOutput.Builder outputProtoBuilder = PlannerOutput.newBuilder();
 
+    private static int mCurrentTrajectory_id = -1;
+
     private static final byte[] mInputByteArr = new byte[16384];
     private static byte[] mOutputByteArr = null;
 
@@ -107,7 +109,6 @@ public final class Main {
                 }
 
                 if (plannerNetInput != null) {
-                    //System.out.println("X: " + plannerNetInput.getPose().getX() + " Y: " + plannerNetInput.getPose().getY() + " ø: " + plannerNetInput.getPose().getYaw());
                     mInputData.timestamp = plannerNetInput.getTimestamp();
                     mInputData.poseInches = new Pose2d(
                             plannerNetInput.getPose().getX(),
@@ -120,9 +121,10 @@ public final class Main {
 
                     if (!mOutputData.trajectoryActive) {
                         if (mInputData.beginTrajectory) {
+                            mCurrentTrajectory_id = mInputData.trajectoryID;
                             motionPlanner.reset();
                             mTrajectory = new TrajectoryIterator<>(new TimedView<>(TrajectoryGenerator.getInstance()
-                                    .trajectoryLookupMap.get(mInputData.trajectoryID)));
+                                    .trajectoryLookupMap.get(mCurrentTrajectory_id)));
                             motionPlanner.setTrajectory(mTrajectory);
                             mOutputData.trajectoryActive = true;
                             mOutputData.trajectoryCompleted = false;
@@ -138,18 +140,20 @@ public final class Main {
                         mOutputData.rightMotorOutputRadPerSec = d.right_velocity;
                         mOutputData.rightMotorFeedforwardVoltage = d.right_feedforward_voltage;
                         mOutputData.rightMotorAccelRadPerSec2 = d.right_accel;
-                        mOutputData.trajectoryActive = true;
                     }
 
                     if (motionPlanner.isDone()) {
                         mOutputData.setZeros();
                         mOutputData.trajectoryCompleted = true;
+                        mOutputData.trajectoryActive = false;
                     }
 
                     if (mInputData.forceStop)
                     {
                         mOutputData.setZeros();
                         motionPlanner.reset();
+                        mOutputData.trajectoryCompleted = true;
+                        mOutputData.trajectoryActive = false;
                     }
                 }
                 else
@@ -166,6 +170,7 @@ public final class Main {
                     .setRightMotorAccelRadPerSec2(mOutputData.rightMotorAccelRadPerSec2)
                     .setTrajectoryActive(mOutputData.trajectoryActive)
                     .setTrajectoryCompleted(mOutputData.trajectoryCompleted)
+                    .setTrajectoryId(mCurrentTrajectory_id)
                     .build().toByteArray();
 
                 mSendPacket = new DatagramPacket(mOutputByteArr, mOutputByteArr.length, mIPAddress, SEND_PORT_NUM);
