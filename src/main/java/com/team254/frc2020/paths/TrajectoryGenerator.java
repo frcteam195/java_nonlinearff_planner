@@ -94,6 +94,7 @@ public class TrajectoryGenerator {
         public static final Pose2d kStartPose1 = new Pose2d(297.9799213, -253.3216535, Rotation2d.fromDegrees(-88.49998937578972));  //302,-245
         public static final Pose2d kBall3Pickup = new Pose2d(301, -286, Rotation2d.fromDegrees(-92));   //301,-270    }
         public static final Pose2d kBall3PickupStartPath2 = new Pose2d(301, -286, Rotation2d.fromDegrees(-180));
+        public static final Pose2d kStartPath2ToBall2 = new Pose2d(201, -250, Rotation2d.fromDegrees(-205));
         public static final Pose2d kBall2PickupAndShoot = new Pose2d(150, -230, Rotation2d.fromDegrees(-200));
         public static final Pose2d kBall2PickupAndShootStartPath3 = new Pose2d(150, -230, Rotation2d.fromDegrees(-180));
         // public static final Pose2d kBall2PickupAndShootStartPath3 = new Pose2d(150, -230, Rotation2d.fromDegrees(-180));
@@ -112,6 +113,7 @@ public class TrajectoryGenerator {
         public static Trajectory<TimedState<Pose2dWithCurvature>> getPickupBall3ToPickupAndShootBall2() {
             List<Pose2d> waypoints = new ArrayList<>();
             waypoints.add(kBall3PickupStartPath2);
+            waypoints.add(kStartPath2ToBall2);
             waypoints.add(kBall2PickupAndShoot);
             return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
                     kMaxVel, kMaxAccel, kMaxVoltage);
