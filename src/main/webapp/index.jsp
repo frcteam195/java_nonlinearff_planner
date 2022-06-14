@@ -25,7 +25,13 @@
     <button onclick='update()'>Update</button>
     <button onclick='draw(3)'>Animate</button>
     <button onclick='flipField()'>Flip Field</button>
+    <button onclick='downloadConfig()'>Download Config</button>
     <span class='checkbox'>Is reversed: <input type='checkbox' id='isReversed'></span>
+    <br>
+    <br>
+    <input type="file" name="file" id="file">
+    <button onclick='loadConfig()'>Load Config</button>
+
 </div>
 <table>
     <thead>
@@ -51,6 +57,8 @@
     </tr>
     </tbody>
 </table>
+
+
 
 <input type='file' id='upl' style='display:none;'>
 </body>
