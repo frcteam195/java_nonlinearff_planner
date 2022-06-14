@@ -1,6 +1,7 @@
 package com.team254.frc2020.paths;
 
 import com.team195.json.TrajectoryJson;
+import com.team195.json.TrajectoryLoader;
 import com.team254.frc2020.planners.DriveMotionPlanner;
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Pose2dWithCurvature;
@@ -39,7 +40,15 @@ public class TrajectoryGenerator {
 
     public void generateTrajectories(ArrayList<TrajectoryJson> trajectoryJsons)
     {
+        if (mTrajectorySet == null)
+        {
+            System.out.println("Generating trajectories from JSON configs.");
+            mTrajectorySet = new TrajectorySet();
 
+            TrajectoryLoader.LoadAllTrajectoryJsons("TempDir");
+
+            System.out.println("Finished generating config trajectories.");
+        }
     }
 
     public void generateTrajectories() {
@@ -64,10 +73,6 @@ public class TrajectoryGenerator {
             trajectoryLookupMap.put(15, mTrajectorySet.auto6_getPickupBall7ToFinalShootPose);
             System.out.println("Finished trajectory generation");
         }
-
-        System.out.println("Tom is trying to build a waypoint configuration loader.");
-
-
     }
 
     public TrajectorySet getTrajectorySet() {
