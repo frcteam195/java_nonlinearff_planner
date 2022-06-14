@@ -164,7 +164,7 @@ class Rotation2d {
 
     rotateBy(other) {
         return new Rotation2d(this.cos * other.cos - this.sin * other.sin,
-            this.cos * other.sin + this.sin * other.cos, true);
+                              this.cos * other.sin + this.sin * other.cos, true);
     }
 
     normal() {
@@ -211,7 +211,7 @@ class Pose2d {
         }
 
         return new Pose2d(new Translation2d(delta.dx * s - delta.dy * c, delta.dx * c + delta.dy * s),
-            new Rotation2d(cos_theta, sin_theta, false));
+                          new Rotation2d(cos_theta, sin_theta, false));
     }
 
     static log(transform) {
@@ -239,7 +239,7 @@ class Pose2d {
 
     transformBy(other) {
         return new Pose2d(this.translation.translateBy(other.translation.rotateBy(this.rotation)),
-            this.rotation.rotateBy(other.rotation));
+                          this.rotation.rotateBy(other.rotation));
     }
 
     inverse() {
@@ -337,7 +337,7 @@ function drawRobot(position, heading) {
 
     angles.forEach(function (angle) {
         let point = new Translation2d(position.translation.x + (r * Math.cos(angle)),
-            position.translation.y + (r * Math.sin(angle)));
+                                      position.translation.y + (r * Math.sin(angle)));
         points.push(point);
         point.draw(Math.abs(angle - heading) < pi / 2 ? "#00AAFF" : "#0066FF", splineWidth);
     });
@@ -428,12 +428,12 @@ function addPoint(x, y) {
     let theta = Math.round(r2d(Math.atan2((y - prev.y),(x - prev.x)) + angleOffset));
 
     $("tbody").append("<tr>" + "<td class='drag-handler'></td>"
-    + "<td class='x'><input type='number' value='" + x + "'></td>"
-    + "<td class='y'><input type='number' value='" + y + "'></td>"
-        + "<td class='heading'><input type='number' value='" + theta + "'></td>"
-        + "<td class='comments'><input type='search' placeholder='Comments'></td>"
-        + "<td class='enabled'><input type='checkbox' checked></td>"
-        + "<td class='delete'><button onclick='$(this).parent().parent().remove();update()'>&times;</button></td></tr>");
+                      + "<td class='x'><input type='number' value='" + x + "'></td>"
+                      + "<td class='y'><input type='number' value='" + y + "'></td>"
+                      + "<td class='heading'><input type='number' value='" + theta + "'></td>"
+                      + "<td class='comments'><input type='search' placeholder='Comments'></td>"
+                      + "<td class='enabled'><input type='checkbox' checked></td>"
+                      + "<td class='delete'><button onclick='$(this).parent().parent().remove();update()'>&times;</button></td></tr>");
     update();
     rebind();
 }
@@ -444,16 +444,16 @@ function draw(style) {
 
     switch (style) {
         // waypoints only
-        case 1:
-            break;
+    case 1:
+        break;
         // all
-        case 2:
-            drawSplines(true);
-            drawSplines(false);
-            break;
-        case 3:
-            animate();
-            break;
+    case 2:
+        drawSplines(true);
+        drawSplines(false);
+        break;
+    case 3:
+        animate();
+        break;
     }
 }
 
@@ -563,4 +563,69 @@ function drawSplines(fill, animate) {
             }
         });
     }
+}
+
+function get_upload( path ){
+}
+
+
+async function loadConfig() {
+
+    let f = document.getElementById("file").files[0];
+    let reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+        return function(e) {
+            console.log(e.target.result);
+        };
+    })(f);
+
+    // Read in the image file as a data URL.
+    reader.readAsText(f);
+}
+
+
+
+var textFile = null,
+    makeTextFile = function (text) {
+        var data = new Blob([text], {type: 'text/plain'});
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        // returns a URL you can use as a href
+        return textFile;
+    };
+
+function downloadConfig() {
+
+    var output_json = {};
+
+    output_json["waypoints"] = waypoints;
+    //output_json["spline"] = splinePoints;
+
+    var contents = JSON.stringify( output_json, null, 2 );
+    console.log( contents );
+
+    var url = makeTextFile(contents);
+    console.log(url);
+
+    var link = document.createElement('a');
+    link.setAttribute('download', 'info.txt');
+    link.href = url;
+    link.style.display = "none";
+
+    // wait for the link to be added to the document
+    window.requestAnimationFrame(function () {
+        var event = new MouseEvent('click');
+        link.dispatchEvent(event);
+        document.body.removeChild(link);
+    });
+
 }
