@@ -399,11 +399,6 @@ function rebind() {
     });
 }
 
-// function canvasClick(canvas, evt) {
-//     var mPos = getMousePos(canvas, evt);
-//     addPoint(mPos.x, mPos.y);
-// }
-
 const pixelMouseDelta = 10;
 let pointToMove = -1;
 function canvasMouseDown(canvas, evt)
