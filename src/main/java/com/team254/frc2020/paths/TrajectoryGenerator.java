@@ -1,6 +1,7 @@
 package com.team254.frc2020.paths;
 
 import com.team195.json.TrajectoryJson;
+import com.team195.json.TrajectoryLoader;
 import com.team254.frc2020.planners.DriveMotionPlanner;
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Pose2dWithCurvature;
