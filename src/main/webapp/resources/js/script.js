@@ -577,7 +577,12 @@ async function loadConfig() {
     // Closure to capture the file information.
     reader.onload = (function(theFile) {
         return function(e) {
-            console.log(e.target.result);
+            let waypoints = JSON.parse(e.target.result)["waypoints"];
+
+            waypoints.forEach((waypoint) => {
+                console.log(waypoint);
+                addPoint(waypoint["translation"]["x"], waypoint["translation"]["y"]);
+            });
         };
     })(f);
 
