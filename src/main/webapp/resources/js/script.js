@@ -399,9 +399,55 @@ function rebind() {
     });
 }
 
-function canvasClick(canvas, evt) {
+// function canvasClick(canvas, evt) {
+//     var mPos = getMousePos(canvas, evt);
+//     addPoint(mPos.x, mPos.y);
+// }
+
+const pixelMouseDelta = 10;
+let pointToMove = -1;
+function canvasMouseDown(canvas, evt)
+{
+    let mouseTranslation = getMouseTranslation(canvas, evt);
+    let pointFound = false;
+    waypoints.forEach((wp, idx) =>
+    {
+        if (wp.translation.distance(mouseTranslation) < pixelMouseDelta)
+        {
+            pointFound = true;
+            pointToMove = idx;
+        }
+    });
+
+    if (!pointFound)
+    {
+        //If no point for click and drag is found, just add a point where the mouse was pressed
+        addPoint(mouseTranslation.x, mouseTranslation.y);
+
+        //Also, reset the click and drag variables
+        pointToMove = -1;
+    }
+}
+function canvasMouseUp(canvas, evt)
+{
+    let mouseTranslation = getMouseTranslation(canvas, evt);
+
+    if (pointToMove >= 0)
+    {
+        let row = $("table tbody tr:eq(" + pointToMove + ")");
+        //console.log($(row.children()[1]).children()[0]);
+        $($(row.children()[1]).children()[0]).val(mouseTranslation.x);
+        $($(row.children()[2]).children()[0]).val(mouseTranslation.y);
+        update();
+        rebind();
+    }
+    pointToMove = -1;
+}
+
+function getMouseTranslation(canvas, evt)
+{
     var mPos = getMousePos(canvas, evt);
-    addPoint(mPos.x, mPos.y);
+    return new Translation2d(mPos.x, mPos.y);
 }
 
 function getMousePos(canvas, evt) {

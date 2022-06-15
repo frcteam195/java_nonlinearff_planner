@@ -19,7 +19,7 @@
 <input id='title' placeholder='Title'>
 <div id='canvases'>
     <canvas id='background'></canvas>
-    <canvas id='field' onclick="canvasClick(this, event)"></canvas>
+    <canvas id='field' onmousedown="canvasMouseDown(this, event)" onmouseup="canvasMouseUp(this, event)"></canvas>
 </div>
 <div class='buttonContainer'>
     <button onclick='addPoint()'>Add Point</button>
