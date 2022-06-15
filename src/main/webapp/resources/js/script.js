@@ -357,13 +357,13 @@ function init() {
     canvases.css("width", widthString);
     canvases.css("height", heightString);
 
-    ctx = document.getElementById('field').getContext('2d');
+    ctx = document.getElementById("field").getContext('2d');
     ctx.canvas.width = width;
     ctx.canvas.height = height;
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = "#FF0000";
 
-    ctxBackground = document.getElementById('background').getContext('2d');
+    ctxBackground = document.getElementById("background").getContext('2d');
     ctxBackground.canvas.width = width;
     ctxBackground.canvas.height = height;
     ctx.clearRect(0, 0, width, height);
