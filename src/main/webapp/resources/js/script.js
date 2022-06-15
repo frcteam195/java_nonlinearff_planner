@@ -415,6 +415,19 @@ function getMousePos(canvas, evt) {
     }
 }
 
+function addFullPoint(x, y, theta)
+{
+    $("tbody").append("<tr>" + "<td class='drag-handler'></td>"
+                      + "<td class='x'><input type='number' value='" + x + "'></td>"
+                      + "<td class='y'><input type='number' value='" + y + "'></td>"
+                      + "<td class='heading'><input type='number' value='" + theta + "'></td>"
+                      + "<td class='comments'><input type='search' placeholder='Comments'></td>"
+                      + "<td class='enabled'><input type='checkbox' checked></td>"
+                      + "<td class='delete'><button onclick='$(this).parent().parent().remove();update()'>&times;</button></td></tr>");
+    update();
+    rebind();
+}
+
 function addPoint(x, y) {
     let prev;
     if (waypoints.length > 0) prev = waypoints[waypoints.length - 1].translation;
@@ -427,15 +440,7 @@ function addPoint(x, y) {
 
     let theta = Math.round(r2d(Math.atan2((y - prev.y),(x - prev.x)) + angleOffset));
 
-    $("tbody").append("<tr>" + "<td class='drag-handler'></td>"
-                      + "<td class='x'><input type='number' value='" + x + "'></td>"
-                      + "<td class='y'><input type='number' value='" + y + "'></td>"
-                      + "<td class='heading'><input type='number' value='" + theta + "'></td>"
-                      + "<td class='comments'><input type='search' placeholder='Comments'></td>"
-                      + "<td class='enabled'><input type='checkbox' checked></td>"
-                      + "<td class='delete'><button onclick='$(this).parent().parent().remove();update()'>&times;</button></td></tr>");
-    update();
-    rebind();
+    addFullPoint(x, y, theta);
 }
 
 function draw(style) {
@@ -568,6 +573,20 @@ function drawSplines(fill, animate) {
 function get_upload( path ){
 }
 
+class waypoint_json
+{
+    constructor(x, y, theta, comment) {
+        this.x = x;
+        this.y = y;
+        this.theta = theta;
+        this.comment = comment;
+    }
+
+    static fromWaypoint(wp)
+    {
+        return new waypoint_json(wp.translation.x, wp.translation.y, wp.rotation.getDegrees(), wp.comment);
+    }
+}
 
 async function loadConfig() {
 
@@ -582,9 +601,11 @@ async function loadConfig() {
 
             let trajectory = JSON.parse(e.target.result);
             
-            $("#title").val(trajectory["name"])
+            $("#title").val(trajectory["name"]);
+            $("#pathID").val(trajectory["id"]);
+            $("#isReversed").prop('checked', trajectory["reversed"]);
             trajectory["waypoints"].forEach((waypoint) => {
-                addPoint(waypoint["translation"]["x"], waypoint["translation"]["y"]);
+                addFullPoint(waypoint["x"], waypoint["y"], waypoint["theta"]);
             });
         };
     })(f);
@@ -619,7 +640,14 @@ function downloadConfig() {
     var output_json = {};
 
     output_json["name"] = $("#title").val();
-    output_json["waypoints"] = waypoints;
+    output_json["id"] = $("#pathID").val();
+    output_json["reversed"] = $('#isReversed').prop('checked');
+    let wp_arr = [];
+    waypoints.forEach((waypoint) =>
+    {
+        wp_arr.push(waypoint_json.fromWaypoint(waypoint));
+    });
+    output_json["waypoints"] = wp_arr;
 
     var contents = JSON.stringify( output_json, null, 2 );
     console.log( contents );

@@ -37,21 +37,21 @@ public class PrevAutos {
         Auto6_5ball_Points.getPickupBall7ToFinalShootPose();
     }
 
-    public static final Pose2dJson kBall1 = new Pose2dJson(194.6035433, -80.35708661, 0);  //200,-251
-    public static final Pose2dJson kBall2 = new Pose2dJson(199.053937, -250.30315, 0);  //200,-251
-    public static final Pose2dJson kBall3 = new Pose2dJson(298.0893701, -312.7901575, 0);    //298,-313
-    public static final Pose2dJson kBall7 = new Pose2dJson(42.03031496, -280.783465, 0);  //42,280
+    public static final Pose2dJson kBall1 = new Pose2dJson(194.6035433, -80.35708661, 0, "");  //200,-251
+    public static final Pose2dJson kBall2 = new Pose2dJson(199.053937, -250.30315, 0, "");  //200,-251
+    public static final Pose2dJson kBall3 = new Pose2dJson(298.0893701, -312.7901575, 0, "");    //298,-313
+    public static final Pose2dJson kBall7 = new Pose2dJson(42.03031496, -280.783465, 0, "");  //42,280
 
     public static class Auto6_5ball_Points {
-        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972);  //302,-245
-        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -286, -92);   //301,-270    }
-        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -286, -180);
-        public static final Pose2dJson kStartPath2ToBall2 = new Pose2dJson(201, -250, -205);
-        public static final Pose2dJson kBall2PickupAndShoot = new Pose2dJson(150, -230, -200);
-        public static final Pose2dJson kBall2PickupAndShootStartPath3 = new Pose2dJson(150, -230, -180);
-        // public static final Pose2dJson kBall2PickupAndShootStartPath3 = new Pose2dJson(150, -230, -180);
-        public static final Pose2dJson kBall7Pickup = new Pose2dJson(63, -265, -140);
-        public static final Pose2dJson kFinalShootPose = new Pose2dJson(77, -255, -140);
+        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972, "");  //302,-245
+        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -286, -92, "");   //301,-270    }
+        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -286, -180, "");
+        public static final Pose2dJson kStartPath2ToBall2 = new Pose2dJson(201, -250, -205, "");
+        public static final Pose2dJson kBall2PickupAndShoot = new Pose2dJson(150, -230, -200, "");
+        public static final Pose2dJson kBall2PickupAndShootStartPath3 = new Pose2dJson(150, -230, -180, "");
+        // public static final Pose2dJson kBall2PickupAndShootStartPath3 = new Pose2dJson(150, -230, -180, "");
+        public static final Pose2dJson kBall7Pickup = new Pose2dJson(63, -265, -140, "");
+        public static final Pose2dJson kFinalShootPose = new Pose2dJson(77, -255, -140, "");
 
 
         public static void getStartToPickupBall3() {
@@ -85,12 +85,12 @@ public class PrevAutos {
     }
 
     public static class Auto1_5ball_Points {
-        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972);  //302,-245
-        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -286, -92);   //301,-270
-        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -286, -180);   //301,-270
-        public static final Pose2dJson kBall2Pickup = new Pose2dJson(220, -267, 140);  //220,-267
-        public static final Pose2dJson kBall7Pickup = new Pose2dJson(63, -265, -145);  //60,-260
-        public static final Pose2dJson kFinalShootPose = new Pose2dJson(77, -255, -145);
+        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972, "");  //302,-245
+        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -286, -92, "");   //301,-270
+        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -286, -180, "");   //301,-270
+        public static final Pose2dJson kBall2Pickup = new Pose2dJson(220, -267, 140, "");  //220,-267
+        public static final Pose2dJson kBall7Pickup = new Pose2dJson(63, -265, -145, "");  //60,-260
+        public static final Pose2dJson kFinalShootPose = new Pose2dJson(77, -255, -145, "");
 
         public static void getStart1ToPickupBall3() {
             List<Pose2dJson> waypoints = new ArrayList<>();
@@ -117,8 +117,8 @@ public class PrevAutos {
     }
 
     public static class Auto2_2ball_Points {
-        public static final Pose2dJson kStartPose2 = new Pose2dJson(238.7240157, -120.2307087, 136.500);   //245,-125
-        public static final Pose2dJson kBall1Pickup = new Pose2dJson(205, -85, 135);  //220,-267
+        public static final Pose2dJson kStartPose2 = new Pose2dJson(238.7240157, -120.2307087, 136.500, "");   //245,-125
+        public static final Pose2dJson kBall1Pickup = new Pose2dJson(205, -85, 135, "");  //220,-267
 
         public static void getStart2ToPickupBall1() {
             List<Pose2dJson> waypoints = new ArrayList<>();
@@ -129,9 +129,9 @@ public class PrevAutos {
     }
 
     public static class Auto3_1ball_Points {
-        public static final Pose2dJson kStartPose3 = new Pose2dJson(268, -220, -156.000);   //rviz 258.523622, -217.8472441
-        public static final Pose2dJson kBall2Pickup = new Pose2dJson(161, -186, 162);
-        public static final Pose2dJson kFieldLineWait = new Pose2dJson(252, -100, 30);
+        public static final Pose2dJson kStartPose3 = new Pose2dJson(268, -220, -156.000, "");   //rviz 258.523622, -217.8472441
+        public static final Pose2dJson kBall2Pickup = new Pose2dJson(161, -186, 162, "");
+        public static final Pose2dJson kFieldLineWait = new Pose2dJson(252, -100, 30, "");
 
         public static void getStart3ToPickupBall2() {
             List<Pose2dJson> waypoints = new ArrayList<>();
@@ -149,10 +149,10 @@ public class PrevAutos {
     }
 
     public static class Auto4_1ball_Points {
-        public static final Pose2dJson kStartPose3 = new Pose2dJson(268, -220, -156.000);   //rviz 258.523622, -217.8472441
-        public static final Pose2dJson kBall2Pickup = new Pose2dJson(161, -186, 162);
-        public static final Pose2dJson kHangarWaypoint = new Pose2dJson(68, -113, 90);
-        public static final Pose2dJson kFieldLineWait = new Pose2dJson(230, -37, 12);
+        public static final Pose2dJson kStartPose3 = new Pose2dJson(268, -220, -156.000, "");   //rviz 258.523622, -217.8472441
+        public static final Pose2dJson kBall2Pickup = new Pose2dJson(161, -186, 162, "");
+        public static final Pose2dJson kHangarWaypoint = new Pose2dJson(68, -113, 90, "");
+        public static final Pose2dJson kFieldLineWait = new Pose2dJson(230, -37, 12, "");
 
         public static void getStart3ToPickupBall2() {
             List<Pose2dJson> waypoints = new ArrayList<>();
@@ -171,12 +171,12 @@ public class PrevAutos {
     }
 
     public static class Auto5_5ball_Alternate_Points {
-        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972);  //302,-245
-        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -275, -92);   //301,-270
-        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -275, -180);   //301,-270
-        public static final Pose2dJson kBall2Pickup = new Pose2dJson(220, -267, 140);  //220,-267
-        public static final Pose2dJson kBall7Pickup = new Pose2dJson(68, -265, -145);  //60,-260
-        public static final Pose2dJson kFinalShootBallPose = new Pose2dJson(135, -215, -145);  //60,-260
+        public static final Pose2dJson kStartPose1 = new Pose2dJson(297.9799213, -253.3216535, -88.49998937578972, "");  //302,-245
+        public static final Pose2dJson kBall3Pickup = new Pose2dJson(301, -275, -92, "");   //301,-270
+        public static final Pose2dJson kBall3PickupStartPath2 = new Pose2dJson(301, -275, -180, "");   //301,-270
+        public static final Pose2dJson kBall2Pickup = new Pose2dJson(220, -267, 140, "");  //220,-267
+        public static final Pose2dJson kBall7Pickup = new Pose2dJson(68, -265, -145, "");  //60,-260
+        public static final Pose2dJson kFinalShootBallPose = new Pose2dJson(135, -215, -145, "");  //60,-260
 
         public static void getStart1ToPickupBall3() {
             List<Pose2dJson> waypoints = new ArrayList<>();

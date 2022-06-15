@@ -123,16 +123,16 @@ public class TrajectoryGenerator {
 
         private Trajectory<TimedState<Pose2dWithCurvature>> getTestTrajectory() {
             List<Pose2dJson> waypoints = new ArrayList<>();
-            waypoints.add(new Pose2dJson(0, 0, 180));
-            waypoints.add(new Pose2dJson(-120, 120, 90));
+            waypoints.add(new Pose2dJson(0, 0, 180, ""));
+            waypoints.add(new Pose2dJson(-120, 120, 90, ""));
             return generateTrajectory(false, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
                     kMaxVel, kMaxAccel, kMaxVoltage);
         }
 
         private Trajectory<TimedState<Pose2dWithCurvature>> getTestTrajectoryBack() {
             List<Pose2dJson> waypoints = new ArrayList<>();
-            waypoints.add(new Pose2dJson(-120, 120, 90));
-            waypoints.add(new Pose2dJson(0, 0, 180));
+            waypoints.add(new Pose2dJson(-120, 120, 90, ""));
+            waypoints.add(new Pose2dJson(0, 0, 180, ""));
             return generateTrajectory(true, waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
                     kMaxVel, kMaxAccel, kMaxVoltage);
         }

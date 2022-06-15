@@ -33,7 +33,7 @@ public class TrajectoryLoader {
     }
 
     public static void SaveTrajectory(TrajectoryJson json) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             FileWriter fw = new FileWriter("/Users/roberthilton/Desktop/trajectories/" + json.name + ".json");
             fw.write(gson.toJson(json, TrajectoryJson.class));

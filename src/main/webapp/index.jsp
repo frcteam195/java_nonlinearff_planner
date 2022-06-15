@@ -26,6 +26,7 @@
     <button onclick='draw(3)'>Animate</button>
     <button onclick='flipField()'>Flip Field</button>
     <button onclick='downloadConfig()'>Download Config</button>
+    <span class='texbox'>Path ID:  <input type='text' value='0' id='pathID'></span>
     <span class='checkbox'>Is reversed: <input type='checkbox' id='isReversed'></span>
     <br>
     <br>
