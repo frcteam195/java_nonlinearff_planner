@@ -9,7 +9,6 @@ public class TrajectoryJson {
     public String name;
     public boolean reversed;
     public List<Pose2dJson> waypoints;
-    public String comment;
 
     public TrajectoryJson(int id, String name, boolean reversed, List<Pose2dJson> waypoints) {
         this.id = id;

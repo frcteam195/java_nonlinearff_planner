@@ -6,6 +6,7 @@
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='<c:url value='/resources/js/FileSaver.js' />'></script>
     <script type='text/javascript' src='<c:url value='/resources/js/script.js' />'></script>
 
     <link rel='shortcut icon' href='https://media.team254.com/homepage/icons/favicon32.png'/>
@@ -22,17 +23,20 @@
 </div>
 <div class='buttonContainer'>
     <button onclick='addPoint()'>Add Point</button>
-    <button onclick='update()'>Update</button>
     <button onclick='draw(3)'>Animate</button>
     <button onclick='flipField()'>Flip Field</button>
-    <button onclick='downloadConfig()'>Download Config</button>
+    <button onclick='update()'>Update</button>
+    <span class="floatright">
+        <button onclick='downloadConfig()'>Download Config</button>
+        <button onclick='uploadConfig()'>Upload Config</button>
+    </span>
+    <br>
+    <br>
     <span class='texbox'>Path ID:  <input type='text' value='0' id='pathID'></span>
-    <span class='checkbox'>Is reversed: <input type='checkbox' id='isReversed'></span>
-    <br>
-    <br>
-    <input type="file" name="file" id="file">
-    <button onclick='loadConfig()'>Load Config</button>
-
+    <span class='floatright'>Is Reversed: <input type='checkbox' id='isReversed'></span>
+    <div class="hiddenfile">
+        <input type="file" id="configFileUpload">
+    </div>
 </div>
 <table>
     <thead>

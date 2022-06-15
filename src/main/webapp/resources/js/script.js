@@ -486,27 +486,30 @@ function update() {
 
     draw(1);
 
-    $.post({
-        url: "/api/calculate_splines",
-        data: data,
-        success: function (data) {
-            if (data === "no") {
-                return;
+    if (data && data !== "")
+    {
+        $.post({
+            url: "/api/calculate_splines",
+            data: data,
+            success: function (data) {
+                if (data === "no") {
+                    return;
+                }
+
+                //console.log(data);
+
+                let points = JSON.parse(data).points;
+
+                splinePoints = [];
+                for (let i in points) {
+                    let point = points[i];
+                    splinePoints.push(new Pose2d(new Translation2d(point.x, point.y), Rotation2d.fromRadians(point.rotation)));
+                }
+
+                draw(2);
             }
-
-            console.log(data);
-
-            let points = JSON.parse(data).points;
-
-            splinePoints = [];
-            for (let i in points) {
-                let point = points[i];
-                splinePoints.push(new Pose2d(new Translation2d(point.x, point.y), Rotation2d.fromRadians(point.rotation)));
-            }
-
-            draw(2);
-        }
-    });
+        });
+    }
 }
 
 let flipped = false;
@@ -573,6 +576,10 @@ function drawSplines(fill, animate) {
 function get_upload( path ){
 }
 
+function roundToDecimals(num, decimals) {
+    return +(Math.round(num + ("e+" + decimals.toString()))  + ("e-" + decimals.toString()));
+}
+
 class waypoint_json
 {
     constructor(x, y, theta, comment) {
@@ -584,37 +591,43 @@ class waypoint_json
 
     static fromWaypoint(wp)
     {
-        return new waypoint_json(wp.translation.x, wp.translation.y, wp.rotation.getDegrees(), wp.comment);
+        return new waypoint_json(roundToDecimals(wp.translation.x, 2), roundToDecimals(wp.translation.y, 2), roundToDecimals(wp.rotation.getDegrees(), 2), wp.comment);
     }
 }
 
-async function loadConfig() {
+function uploadConfig()
+{
+    $("#configFileUpload").change(function() {
+        let f = $('#configFileUpload').prop('files')[0];
+        let reader = new FileReader();
 
-    let f = document.getElementById("file").files[0];
-    let reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                $("tbody").html("");
+                update();
 
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-        return function(e) {
-            $("tbody").html("");
-            update();
+                let trajectory = JSON.parse(e.target.result);
+                
+                $("#title").val(trajectory["name"]);
+                $("#pathID").val(trajectory["id"]);
+                $("#isReversed").prop('checked', trajectory["reversed"]);
+                trajectory["waypoints"].forEach((waypoint) => {
+                    addFullPoint(roundToDecimals(waypoint["x"], 2), roundToDecimals(waypoint["y"], 2), roundToDecimals(waypoint["theta"], 2));
+                });
+                update();
+                rebind();
+            };
+        })(f);
 
-            let trajectory = JSON.parse(e.target.result);
-            
-            $("#title").val(trajectory["name"]);
-            $("#pathID").val(trajectory["id"]);
-            $("#isReversed").prop('checked', trajectory["reversed"]);
-            trajectory["waypoints"].forEach((waypoint) => {
-                addFullPoint(waypoint["x"], waypoint["y"], waypoint["theta"]);
-            });
-        };
-    })(f);
+        // Read in the image file as a data URL.
+        if (f != null)
+        {
+            reader.readAsText(f);
+        }
+    });
 
-    // Read in the image file as a data URL.
-    if (f != null)
-    {
-        reader.readAsText(f);
-    }
+    $('#configFileUpload').trigger('click');
 }
 
 
@@ -639,8 +652,8 @@ function downloadConfig() {
 
     var output_json = {};
 
-    output_json["name"] = $("#title").val();
     output_json["id"] = $("#pathID").val();
+    output_json["name"] = $("#title").val();
     output_json["reversed"] = $('#isReversed').prop('checked');
     let wp_arr = [];
     waypoints.forEach((waypoint) =>
@@ -649,22 +662,7 @@ function downloadConfig() {
     });
     output_json["waypoints"] = wp_arr;
 
-    var contents = JSON.stringify( output_json, null, 2 );
-    console.log( contents );
-
-    var url = makeTextFile(contents);
-    console.log(url);
-
-    var link = document.createElement('a');
-    link.setAttribute('download', $("#title").val().replaceAll(' ', '-') + "-Traj.json");
-    link.href = url;
-    link.style.display = "none";
-
-    // wait for the link to be added to the document
-    window.requestAnimationFrame(function () {
-        var event = new MouseEvent('click');
-        link.dispatchEvent(event);
-        document.body.removeChild(link);
-    });
-
+    var blob = new Blob([JSON.stringify( output_json, null, 2 )], {type: "text/plain;charset=utf-8"});
+    var title = $("#title").val().replaceAll(' ', '_');
+	saveAs(blob, (title === '' ? "Untitled" : title) + ".json");
 }
