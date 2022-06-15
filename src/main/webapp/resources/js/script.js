@@ -369,7 +369,7 @@ function init() {
     ctx.clearRect(0, 0, width, height);
 
     image = new Image();
-    image.src = '/resources/img/field.png';
+    image.src = "/resources/img/field.png";
     image.onload = function () {
         ctxBackground.drawImage(image, 0, 0, width, height);
         update();
