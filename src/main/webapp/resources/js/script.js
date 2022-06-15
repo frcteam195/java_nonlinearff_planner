@@ -363,7 +363,7 @@ function init() {
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = "#FF0000";
 
-    ctxBackground = document.getElementById('background').getContext('2d');
+    ctxBackground = document.getElementById("background").getContext('2d');
     ctxBackground.canvas.width = width;
     ctxBackground.canvas.height = height;
     ctx.clearRect(0, 0, width, height);
