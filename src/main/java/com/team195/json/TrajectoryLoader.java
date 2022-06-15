@@ -4,6 +4,8 @@ import com.google.gson.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,7 +32,18 @@ public class TrajectoryLoader {
         return trajectory;
     }
 
-    public static ArrayList<TrajectoryJson> LoadAllTrajectoryJsons (String trajectoryDirectory)
+    public static void SaveTrajectory(TrajectoryJson json) {
+        Gson gson = new Gson();
+        try {
+            FileWriter fw = new FileWriter("/Users/roberthilton/Desktop/trajectories/" + json.name + ".json");
+            fw.write(gson.toJson(json, TrajectoryJson.class));
+            fw.close();
+        } catch (IOException exception) {
+
+        }
+    }
+
+    public static ArrayList<TrajectoryJson> LoadAllTrajectoryJsons(String trajectoryDirectory)
     {
         ArrayList<TrajectoryJson> trajectoryJsons = new ArrayList<TrajectoryJson>();
 
