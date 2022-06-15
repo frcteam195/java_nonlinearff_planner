@@ -1,6 +1,8 @@
 package com.team195.frc;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.team195.json.TrajectoryJson;
+import com.team195.json.TrajectoryLoader;
 import com.team254.frc2020.paths.TrajectoryGenerator;
 import com.team254.frc2020.planners.DriveMotionPlanner;
 import com.team254.lib.geometry.Pose2d;
@@ -19,6 +21,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -43,10 +46,13 @@ public final class Main {
     private static final int SEND_PORT_NUM = 5803;
     private static final int RECV_PORT_NUM = 5804;
 
+    private static final String TRAJ_JSON_DIR = "/robot/trajectories/";
+
     public static void main(String... args)
     {
         Arrays.fill(mInputByteArr, (byte)0);
-        TrajectoryGenerator.getInstance().generateTrajectories();
+        ArrayList<TrajectoryJson> arrTraj = TrajectoryLoader.LoadAllTrajectoryJsons(TRAJ_JSON_DIR);
+        TrajectoryGenerator.getInstance().generateTrajectories(arrTraj);
 
         Thread mDrivePlannerThread = new Thread(() ->
         {
