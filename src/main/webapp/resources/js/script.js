@@ -577,17 +577,23 @@ async function loadConfig() {
     // Closure to capture the file information.
     reader.onload = (function(theFile) {
         return function(e) {
-            let waypoints = JSON.parse(e.target.result)["waypoints"];
+            $("tbody").html("");
+            update();
 
-            waypoints.forEach((waypoint) => {
-                console.log(waypoint);
+            let trajectory = JSON.parse(e.target.result);
+            
+            $("#title").val(trajectory["name"])
+            trajectory["waypoints"].forEach((waypoint) => {
                 addPoint(waypoint["translation"]["x"], waypoint["translation"]["y"]);
             });
         };
     })(f);
 
     // Read in the image file as a data URL.
-    reader.readAsText(f);
+    if (f != null)
+    {
+        reader.readAsText(f);
+    }
 }
 
 
@@ -612,8 +618,8 @@ function downloadConfig() {
 
     var output_json = {};
 
+    output_json["name"] = $("#title").val();
     output_json["waypoints"] = waypoints;
-    //output_json["spline"] = splinePoints;
 
     var contents = JSON.stringify( output_json, null, 2 );
     console.log( contents );
@@ -622,7 +628,7 @@ function downloadConfig() {
     console.log(url);
 
     var link = document.createElement('a');
-    link.setAttribute('download', 'info.txt');
+    link.setAttribute('download', $("#title").val().replaceAll(' ', '-') + "-Traj.json");
     link.href = url;
     link.style.display = "none";
 
