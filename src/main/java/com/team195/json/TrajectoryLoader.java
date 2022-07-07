@@ -60,6 +60,12 @@ public class TrajectoryLoader {
             exception.printStackTrace();
         }
 
+        //DEBUG ONLY
+        for (TrajectoryJson t : trajectoryJsons)
+        {
+            System.out.println("Loaded ID: " + t.id);
+        }
+
         return trajectoryJsons;
     }
 }
