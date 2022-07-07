@@ -48,9 +48,9 @@ public class TrajectoryLoader {
         ArrayList<TrajectoryJson> trajectoryJsons = new ArrayList<TrajectoryJson>();
 
         try (Stream<Path> paths = Files.walk(Paths.get(trajectoryDirectory))) {
-            paths.filter(Files::isRegularFile);
+            Stream<Path> filteredPaths = paths.filter(Files::isRegularFile);
 
-            for (Path path: paths.collect(Collectors.toList()))
+            for (Path path: filteredPaths.collect(Collectors.toList()))
             {
                 trajectoryJsons.add(LoadTrajectory(path));
             }
