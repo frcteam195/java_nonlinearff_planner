@@ -129,6 +129,8 @@ public final class Main {
                         if (mInputData.beginTrajectory) {
                             mCurrentTrajectory_id = mInputData.trajectoryID;
                             motionPlanner.reset();
+
+                            System.out.println("Getting trajectory from map! mCurrentTrajectory_id = " + mCurrentTrajectory_id);
                             mTrajectory = new TrajectoryIterator<>(new TimedView<>(TrajectoryGenerator.getInstance()
                                     .trajectoryLookupMap.get(mCurrentTrajectory_id)));
                             motionPlanner.setTrajectory(mTrajectory);

@@ -48,13 +48,16 @@ public class TrajectoryGenerator {
         if (mTrajectorySet == null) {
             System.out.println("Generating trajectories...");
             if (arrTraj != null) {
+                System.out.println("Generating trajectories from the JSON array.");
                 mTrajectorySet = new TrajectorySet(arrTraj);
             }
             else
             {
+                System.out.println("Warning! JSON array was NULL!");
+                System.out.println("Generating test trajectories only!");
                 mTrajectorySet = new TrajectorySet();
             }
-            System.out.println("Finished trajectory generation");
+            System.out.println("Finished trajectory generation.");
         }
     }
 
@@ -115,9 +118,19 @@ public class TrajectoryGenerator {
         {
             testTrajectory = getTestTrajectory();
             testTrajectoryBack = getTestTrajectoryBack();
+
+
+
             for (TrajectoryJson tj: arrTraj) {
-                trajectoryLookupMap.put(tj.id, generateTrajectory(tj.reversed, tj.waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)),
-                        kMaxVel, kMaxAccel, kMaxVoltage));
+                 Trajectory<TimedState<Pose2dWithCurvature>> generated_trajectory =
+                         generateTrajectory(tj.reversed, tj.waypoints, Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccel)), kMaxVel, kMaxAccel, kMaxVoltage);
+
+                 System.out.println("Putting Trajectory ID " + tj.id + " in the map.");
+                 // System.out.println(generated_trajectory);
+
+                 trajectoryLookupMap.put(tj.id, generated_trajectory);
+
+                 // System.out.println(trajectoryLookupMap);
             }
         }
 
