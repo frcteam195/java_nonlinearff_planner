@@ -429,7 +429,7 @@ function canvasMouseUp(canvas, evt)
 
     if (pointToMove >= 0)
     {
-        let row = $("table tbody tr:eq(" + pointToMove + ")");
+        let row = $("table #pointtable tr:eq(" + pointToMove + ")");
         //console.log($(row.children()[1]).children()[0]);
         $($(row.children()[1]).children()[0]).val(mouseTranslation.x);
         $($(row.children()[2]).children()[0]).val(mouseTranslation.y);
@@ -458,7 +458,7 @@ function getMousePos(canvas, evt) {
 
 function addFullPoint(x, y, theta)
 {
-    $("tbody").append("<tr>" + "<td class='drag-handler'></td>"
+    $("#pointtable").append("<tr>" + "<td class='drag-handler'></td>"
                       + "<td class='x'><input type='number' value='" + x + "'></td>"
                       + "<td class='y'><input type='number' value='" + y + "'></td>"
                       + "<td class='heading'><input type='number' value='" + theta + "'></td>"
@@ -510,7 +510,7 @@ function update() {
 
     waypoints = [];
     let data = "";
-    $('tbody').children('tr').each(function () {
+    $('#pointtable').children('tr').each(function () {
         let x = parseInt($($($(this).children()).children()[0]).val());
         let y = parseInt($($($(this).children()).children()[1]).val());
         let heading = parseInt($($($(this).children()).children()[2]).val());
@@ -645,13 +645,17 @@ function uploadConfig()
         // Closure to capture the file information.
         reader.onload = (function(theFile) {
             return function(e) {
-                $("tbody").html("");
+                $("#pointtable").html("");
                 update();
 
                 let trajectory = JSON.parse(e.target.result);
                 
                 $("#title").val(trajectory["name"]);
                 $("#pathID").val(trajectory["id"]);
+                $("#maxVel").val(trajectory["maxVel"]);
+                $("#maxAccel").val(trajectory["maxAccel"]);
+                $("#maxVoltage").val(trajectory["maxVoltage"]);
+                $("#maxCentripetalAccel").val(trajectory["maxCentripetalAccel"]);
                 $("#isReversed").prop('checked', trajectory["reversed"]);
                 trajectory["waypoints"].forEach((waypoint) => {
                     addFullPoint(roundToDecimals(waypoint["x"], 2), roundToDecimals(waypoint["y"], 2), roundToDecimals(waypoint["theta"], 2));
@@ -702,6 +706,10 @@ function downloadConfig() {
         wp_arr.push(waypoint_json.fromWaypoint(waypoint));
     });
     output_json["waypoints"] = wp_arr;
+    output_json["maxVel"] = $("#maxVel").val();
+    output_json["maxAccel"] = $("#maxAccel").val();
+    output_json["maxVoltage"] = $("#maxVoltage").val();
+    output_json["maxCentripetalAccel"] = $("#maxCentripetalAccel").val();
 
     var blob = new Blob([JSON.stringify( output_json, null, 2 )], {type: "text/plain;charset=utf-8"});
     var title = $("#title").val().replaceAll(' ', '_');

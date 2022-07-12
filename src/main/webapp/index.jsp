@@ -4,16 +4,15 @@
 <head>
     <title>Cheesy Path</title>
 
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='<c:url value='/resources/js/jquery.min.js' />'></script>
+    <script type='text/javascript' src='<c:url value='/resources/js/jquery-ui.min.js' />'></script>
     <script type='text/javascript' src='<c:url value='/resources/js/FileSaver.js' />'></script>
     <script type='text/javascript' src='<c:url value='/resources/js/script.js' />'></script>
 
-    <link rel='shortcut icon' href='https://media.team254.com/homepage/icons/favicon32.png'/>
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet'>
-    <link href='<c:url value='/resources/css/style.css' />' rel='stylesheet'>
+    <link rel='shortcut icon' href='<c:url value='/resources/img/favicon32.png' />'/>
+    <link rel='stylesheet' href='<c:url value='/resources/css/Roboto.css' />'>
+    <link rel='stylesheet' href='<c:url value='/resources/css/SourceCodePro.css' />'>
+    <link rel='stylesheet' href='<c:url value='/resources/css/style.css' />'>
 </head>
 <body onload='init()'>
 <input id='title' placeholder='Title'>
@@ -32,12 +31,35 @@
     </span>
     <br>
     <br>
-    <span class='texbox'>Path ID:  <input type='text' value='0' id='pathID'></span>
-    <span class='floatright'>Is Reversed: <input type='checkbox' id='isReversed'></span>
     <div class="hiddenfile">
         <input type="file" id="configFileUpload">
     </div>
 </div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Path ID</th>
+        <th>Max Vel</th>
+        <th>Max Accel</th>
+        <th>Max Voltage</th>
+        <th>Max Centripetal Accel</th>
+        <th>Is Reversed?</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><input type='text' value='0' maxlength="3" id='pathID'></td>
+        <td><input type='text' value='-1' maxlength="3" id='maxVel'></td>
+        <td><input type='text' value='-1' maxlength="3" id='maxAccel'></td>
+        <td><input type='text' value='-1' maxlength="3" id='maxVoltage'></td>
+        <td><input type='text' value='-1' maxlength="3" id='maxCentripetalAccel'></td>
+        <td><input type='checkbox' id='isReversed'></td>
+    </tr>
+    </tbody>
+</table>
+
+
 <table>
     <thead>
     <th></th>
@@ -48,7 +70,7 @@
     <th>Enabled</th>
     <th>Delete</th>
     </thead>
-    <tbody>
+    <tbody id="pointtable">
     <tr>
         <td class='drag-handler'></td>
         <td class='x'><input type='number' value='0'></td>
@@ -62,8 +84,6 @@
     </tr>
     </tbody>
 </table>
-
-
 
 <input type='file' id='upl' style='display:none;'>
 </body>
