@@ -24,6 +24,6 @@ public class TrajectoryJson {
     }
 
     public TrajectoryJson(int id, String name, boolean reversed, List<Pose2dJson> waypoints) {
-        this(id, name, reversed, waypoints, -1, -1, -1, -1);
+        this(id, name, reversed, waypoints, 0, 0, 0, 0);
     }
 }

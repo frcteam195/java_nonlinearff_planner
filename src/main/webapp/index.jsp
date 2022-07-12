@@ -49,11 +49,11 @@
     </thead>
     <tbody>
     <tr>
-        <td><input type='text' value='0' maxlength="3" id='pathID'></td>
-        <td><input type='text' value='-1' maxlength="3" id='maxVel'></td>
-        <td><input type='text' value='-1' maxlength="3" id='maxAccel'></td>
-        <td><input type='text' value='-1' maxlength="3" id='maxVoltage'></td>
-        <td><input type='text' value='-1' maxlength="3" id='maxCentripetalAccel'></td>
+        <td><input type='text' value='0' min="0" max="999" maxlength="3" id='pathID'></td>
+        <td><input type='text' value='0' min="0" max="999" maxlength="3" id='maxVel'></td>
+        <td><input type='text' value='0' min="0" max="999" maxlength="3" id='maxAccel'></td>
+        <td><input type='text' value='0' min="0" max="999" maxlength="3" id='maxVoltage'></td>
+        <td><input type='text' value='0' min="0" max="999" maxlength="3" id='maxCentripetalAccel'></td>
         <td><input type='checkbox' id='isReversed'></td>
     </tr>
     </tbody>
