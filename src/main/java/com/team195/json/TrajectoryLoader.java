@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,11 +49,16 @@ public class TrajectoryLoader {
         ArrayList<TrajectoryJson> trajectoryJsons = new ArrayList<TrajectoryJson>();
 
         try (Stream<Path> paths = Files.walk(Paths.get(trajectoryDirectory))) {
-            Stream<Path> filteredPaths = paths.filter(Files::isRegularFile);
+            List<String> filteredPathsList = paths
+                    .filter(Files::isRegularFile)
+                    .map(p -> p.toString())
+                    .filter(f -> f.endsWith("json"))
+                    .collect(Collectors.toList());
 
-            for (Path path: filteredPaths.collect(Collectors.toList()))
+            for (String s: filteredPathsList)
             {
-                trajectoryJsons.add(LoadTrajectory(path));
+                final Path p = Paths.get(s);
+                trajectoryJsons.add(LoadTrajectory(p));
             }
         }
         catch (Exception exception)
