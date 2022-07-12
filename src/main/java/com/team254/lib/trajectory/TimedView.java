@@ -11,7 +11,7 @@ public class TimedView<S extends State<S>> implements TrajectoryView<TimedState<
 
     public TimedView(Trajectory<TimedState<S>> trajectory) {
         trajectory_ = trajectory;
-        System.out.println("Trajectory for TimedView: " + trajectory);
+        //System.out.println("Trajectory for TimedView: " + trajectory);
         start_t_ = trajectory_.getState(0).t();
         end_t_ = trajectory_.getState(trajectory_.length() - 1).t();
     }

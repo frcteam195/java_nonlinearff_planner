@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4;
 public class SavePrevJSON {
     @Test
     public void saveJSONTest() {
-        PrevAutos.saveJSONTrajectories();
+//        PrevAutos.saveJSONTrajectories();
         Assert.assertEquals(0, 0);
     }
 }

@@ -1,6 +1,5 @@
 package com.team195.json;
 
-import com.team254.lib.geometry.Rotation2d;
 import java.util.ArrayList;
 import java.util.List;
 

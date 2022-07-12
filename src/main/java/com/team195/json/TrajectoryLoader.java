@@ -24,6 +24,8 @@ public class TrajectoryLoader {
         try
         {
             trajectory = gson.fromJson(new FileReader(String.valueOf(trajectoryFilePath)), TrajectoryJson.class);
+
+
         }
         catch (FileNotFoundException exception)
         {
@@ -40,18 +42,18 @@ public class TrajectoryLoader {
             fw.write(gson.toJson(json, TrajectoryJson.class));
             fw.close();
         } catch (IOException exception) {
-
+            exception.printStackTrace();
         }
     }
 
     public static ArrayList<TrajectoryJson> LoadAllTrajectoryJsons(String trajectoryDirectory)
     {
-        ArrayList<TrajectoryJson> trajectoryJsons = new ArrayList<TrajectoryJson>();
+        ArrayList<TrajectoryJson> trajectoryJsons = new ArrayList<>();
 
         try (Stream<Path> paths = Files.walk(Paths.get(trajectoryDirectory))) {
             List<String> filteredPathsList = paths
                     .filter(Files::isRegularFile)
-                    .map(p -> p.toString())
+                    .map(Path::toString)
                     .filter(f -> f.endsWith("json"))
                     .collect(Collectors.toList());
 
